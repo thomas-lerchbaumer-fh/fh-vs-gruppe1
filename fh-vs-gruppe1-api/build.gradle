@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.0'
     id 'io.spring.dependency-management' version '1.1.0'
-    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.2.7"
 }
 
 group = 'com.fh.vs.gruppe1.api'
@@ -17,12 +16,16 @@ configurations {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.session:spring-session-core'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //compile('javax.xml.bind:jaxb-api:2.3.0')
+    implementation 'org.jetbrains:annotations:20.1.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'

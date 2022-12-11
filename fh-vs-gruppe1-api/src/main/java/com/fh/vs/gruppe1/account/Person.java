@@ -1,10 +1,7 @@
 package com.fh.vs.gruppe1.account;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +19,10 @@ public abstract class Person {
     public Long getId() {
         return id;
     }
+
+    @Getter
+    @Setter
+    private String email;
 
     @Getter
     @Setter

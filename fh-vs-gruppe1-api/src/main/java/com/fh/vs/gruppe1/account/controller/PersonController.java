@@ -1,4 +1,4 @@
-package com.fh.vs.gruppe1.account;
+package com.fh.vs.gruppe1.account.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

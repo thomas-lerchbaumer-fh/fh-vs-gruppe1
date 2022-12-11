@@ -3,6 +3,7 @@ package com.fh.vs.gruppe1.account;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

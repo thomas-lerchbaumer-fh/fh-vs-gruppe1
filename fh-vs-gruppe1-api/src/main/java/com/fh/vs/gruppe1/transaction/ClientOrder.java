@@ -10,7 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.Instant;
 
 @Entity
-@Table(name="clientOrder")
+@Table(name="client_order")
 public class ClientOrder {
 
     @Id

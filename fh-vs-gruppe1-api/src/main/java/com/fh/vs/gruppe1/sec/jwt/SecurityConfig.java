@@ -1,5 +1,7 @@
 package com.fh.vs.gruppe1.sec.jwt;
 
+import com.fh.vs.gruppe1.account.Customer;
+import com.fh.vs.gruppe1.account.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,18 +41,26 @@ public class SecurityConfig {
 
         log.info(http + "my http req");
 
-        http.csrf().disable().cors().disable().authorizeHttpRequests()
-                .requestMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+
+        http
+                .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(authEntryPoint)
                 .and()
-                // make sure we use stateless session; session won't be used to
-        // store user's state.
+                .authorizeHttpRequests()
+                .requestMatchers("/api/login").permitAll()
+                .requestMatchers("/api/stuff/**").hasAuthority("Employee")
+                .and()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        log.info(http.toString() + " HTTP THROUGH CHAIN");
+
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -63,7 +73,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public  JWTAuthenticationFilter jwtAuthenticationFilter() {
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
         return new JWTAuthenticationFilter();
     }
 }

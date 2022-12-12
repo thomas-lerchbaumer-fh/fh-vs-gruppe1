@@ -1,6 +1,7 @@
 package com.fh.vs.gruppe1.account;
 
 
+import com.fh.vs.gruppe1.depot.Depot;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,8 +40,6 @@ public abstract class Person {
     @Setter
     @Column(nullable = false)
     private String firstName;
-
-
 
 
 }

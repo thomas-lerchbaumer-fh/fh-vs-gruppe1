@@ -4,6 +4,7 @@ package com.fh.vs.gruppe1.account.controller;
 import com.fh.vs.gruppe1.dto.AuthResponseDto;
 import com.fh.vs.gruppe1.dto.LoginDto;
 import com.fh.vs.gruppe1.sec.jwt.CustomUserDetailsService;
+import com.fh.vs.gruppe1.sec.jwt.JWTGenerator;
 import com.fh.vs.gruppe1.sec.jwt.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +29,39 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    private JwtTokenUtil jwtGenerator;
+
+    @Autowired
+    private JWTGenerator jwtGenerator;
+    @Autowired
+    public AuthController(AuthenticationManager authenticationManager, JWTGenerator jwtGenerator) {
+        this.authenticationManager = authenticationManager;
+
+    }
+
+//    @PostMapping("/login")
+//    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginDto loginDto) throws Exception {
+//
+//        authenticate(loginDto.getUsername(), loginDto.getPassword());
+//        final UserDetails userDetails = userDetailsService
+//                .loadUserByUsername(loginDto.getUsername());
+//
+//        final String token = jwtTokenUtil.generateToken(userDetails);
+//
+//        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
+//    }
 
     @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginDto loginDto) throws Exception {
-
-        authenticate(loginDto.getUsername(), loginDto.getPassword());
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(loginDto.getUsername());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getUsername(),
+                        loginDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 

@@ -6,17 +6,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.fh.vs.gruppe1.account.controller.CustomerController.API_CUSTOMER;
-
 @RestController
-@RequestMapping(API_CUSTOMER)
+@RequestMapping("/api/")
 @RequiredArgsConstructor
 @Validated
 public class CustomerController {
 
-    public static final String API_CUSTOMER = "/api/customer";
 
-    @RequestMapping("/stuff/hello")
+    @RequestMapping("/loadUser")
     public String person(){
         return "Hello World";
     }

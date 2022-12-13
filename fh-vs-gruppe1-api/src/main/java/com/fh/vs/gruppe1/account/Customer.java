@@ -1,17 +1,15 @@
 package com.fh.vs.gruppe1.account;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+
 
 @Entity
-public class Customer extends Person{
+public class Customer extends Person {
+    @Column
+    private String customerNumber;
 
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String clientNumber;
+
 }

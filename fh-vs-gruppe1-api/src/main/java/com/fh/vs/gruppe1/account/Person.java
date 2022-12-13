@@ -3,26 +3,30 @@ package com.fh.vs.gruppe1.account;
 
 import com.fh.vs.gruppe1.depot.Depot;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public abstract class Person {
-    private Long id;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
-    }
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
     @Getter
     @Setter
+    @Column(unique=true)
     private String email;
 
     @Getter

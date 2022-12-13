@@ -3,8 +3,10 @@ import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.account.Employee;
 import com.fh.vs.gruppe1.account.repository.EmployeeRepository;
+import com.fh.vs.gruppe1.account.repository.PersonRepository;
 import com.fh.vs.gruppe1.depot.Depot;
 import com.fh.vs.gruppe1.depot.DepotRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,9 +15,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.logging.Logger;
 
 @Service
+@Slf4j
 @Transactional(readOnly = false)
 @Order(0)
 public class TestDataService implements ApplicationRunner
@@ -26,6 +30,9 @@ public class TestDataService implements ApplicationRunner
     @Autowired
     private HibernateProperties hibernateProperties;
     private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+    @Autowired
+    private PersonRepository personRepository;
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
@@ -48,16 +55,11 @@ public class TestDataService implements ApplicationRunner
         customer.setFirstName("Thomas");
         customer.setSurname("LB");
 
-        customer.setPassword((bCryptPasswordEncoder.encode("client")));
-        customer.setEmail("client@client.at");
-        customerRepository.save(customer);
-
         Depot dep = new Depot();
-        dep.setCustomer(customer);
         String depName = customer.getFirstName() + " " + customer.getSurname() + " depot";
         dep.setName(depName);
+        dep.setCustomer(customer);
         depotRepository.save(dep);
-
 
 
 
@@ -67,6 +69,11 @@ public class TestDataService implements ApplicationRunner
         emp.setPassword((bCryptPasswordEncoder.encode("admin")));
         emp.setEmail("admin@admin.at");
         employeeRepository.save(emp);
+
+        customer.setPassword((bCryptPasswordEncoder.encode("client")));
+        customer.setEmail("client@client.at");
+        customerRepository.save(customer);
+
 
 
     }

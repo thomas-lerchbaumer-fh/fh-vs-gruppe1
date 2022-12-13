@@ -39,9 +39,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        log.info(http + "my http req");
-
-
         http
                 .csrf().disable()
                 .exceptionHandling()
@@ -49,7 +46,9 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/login").permitAll()
-                .requestMatchers("/api/stuff/**").hasAuthority("Employee")
+                .requestMatchers("/api/employee/**").hasAuthority("Employee")
+                .requestMatchers("/api/customer/**").hasAuthority("Customer")
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

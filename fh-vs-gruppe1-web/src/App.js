@@ -1,24 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import AuthState from "./context/auth/AuthState";
+import AlertState from "./context/alert/AlertState";
+import {BrowserRouter} from "react-router-dom"
+import Menu from './components/navigation/Menu'
+import AvailableRoutes from "./components/routing/AvailableRoutes";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React testte
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <AuthState>
+
+              <AlertState>
+                <BrowserRouter>
+                  <Menu><AvailableRoutes></AvailableRoutes></Menu>
+                </BrowserRouter>
+              </AlertState>
+
+        </AuthState>
+      </div>
   );
 }
 

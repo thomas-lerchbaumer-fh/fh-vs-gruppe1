@@ -23,7 +23,7 @@ const Item = styled(Paper)(({theme}) => ({
     color: theme.palette.text.secondary,
 }));
 
-const Login = (props) => {
+const LoginForm = (props) => {
     const alertContext = useContext(AlertContext);
     const {setAlert} = alertContext;
 
@@ -33,18 +33,18 @@ const Login = (props) => {
     const {login, error, clearErrors, isAuthenticated } = authContext;
 
     const [user, setUser] = useState({
-        email: '',
+        username: '',
         password: '',
     })
     const onChange = (e) => setUser({...user, [e.target.name]: e.target.value})
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (email === '' || password === '') {
+        if (username === '' || password === '') {
             setAlert("Please fill in all fields", 'error');
         } else {
             login({
-                email,
+                username,
                 password
             })
         }
@@ -62,7 +62,7 @@ const Login = (props) => {
         //es-lint-disable-next-line
     },[error,isAuthenticated, props.history]);
 
-    const {email, password} = user;
+    const {username, password} = user;
 
     return (
         <>
@@ -84,9 +84,9 @@ const Login = (props) => {
                             fullWidth
                             id="email-required"
                             label="Email"
-                            name="email"
+                            name="username"
                             onChange={onChange}
-                            value={email}
+                            value={username}
                         />
                     </Grid>
                     <Grid xs={12} md={12} xl={12}>
@@ -105,11 +105,10 @@ const Login = (props) => {
                         <Button variant="contained" onClick={onSubmit}>Login</Button>
                     </Grid>
                 </Grid>
-
             </Box>
         </>
     )
 }
 
 
-export default Login
+export default LoginForm

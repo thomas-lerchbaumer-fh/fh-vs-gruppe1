@@ -21,8 +21,10 @@ import AuthContext from "../../context/auth/authContext";
 import MapIcon from '@mui/icons-material/Map';
 import menuEntries from '../../utils/menuEntries'
 import {Link} from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import DynamicIcon from "../layout/DynamicIcon";
+import {Avatar} from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -105,14 +107,12 @@ export default function MiniDrawer(props) {
     };
 
     const authContext = useContext(AuthContext);
-    const {login, error, clearErrors, isAuthenticated, loadUser, loading} = authContext;
+    const {login, error, clearErrors, isAuthenticated, loadUser, loading, user, role, logout} = authContext;
 
     useEffect(() => {
-        if (localStorage.token) {
-            loadUser()
-        }
-
-    }, [error, isAuthenticated]);
+        loadUser()
+        console.log(role)
+    }, [loading]);
 
     return (
         <Box sx={{display: 'flex'}}>
@@ -132,8 +132,21 @@ export default function MiniDrawer(props) {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Busfinder Dashboard
+                        Trading-service Wirecard
                     </Typography>
+                    {isAuthenticated && !loading &&
+                    <Box sx={{position:"absolute",right:10}} display={"flex"} flexDirection={"row"} alignItems={"center"}>
+                        <Avatar
+                            sx={{ bgcolor: "orange" }}
+                            alt="Remy Sharp"
+                        >
+                            {role == "employee" ? "A": "C"}
+                        </Avatar>
+                        <IconButton color={"white"} onClick={logout}>
+                            <LogoutIcon color={"white"} sx={{color:"white"}} ></LogoutIcon>
+                        </IconButton>
+                    </Box>
+                    }
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

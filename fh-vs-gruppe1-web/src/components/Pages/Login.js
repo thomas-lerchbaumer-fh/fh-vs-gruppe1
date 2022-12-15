@@ -11,6 +11,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import {Button, TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import LoginForm from "../forms/LoginForm";
 
 
 const Item = styled(Paper)(({theme}) => ({
@@ -65,48 +66,8 @@ const Login = (props) => {
 
     return (
         <>
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
-                }}
-                display="flex"
-                noValidate
-                autoComplete="off"
-                justifyContent="center"
-                flexDirection="column"
-            >
-                <Grid container spacing={2} justifyContent="center" alignContent="center">
-                    <Grid xs={12} md={12} xl={12}>
-                        <TextField
-                            required
-                            fullWidth
-                            id="email-required"
-                            label="Email"
-                            name="username"
-                            onChange={onChange}
-                            value={username}
-                        />
-                    </Grid>
-                    <Grid xs={12} md={12} xl={12}>
-                        <TextField
-                            required
-                            fullWidth
-                            type="password"
-                            id="password-required"
-                            label="Password"
-                            name="password"
-                            onChange={onChange}
-                            value={password}
-                        />
-                    </Grid>
-                    <Grid xs={12} md={12} xl={12}>
-                        <Button variant="contained" onClick={onSubmit}>Login</Button>
-                    </Grid>
-                </Grid>
-
-            </Box>
-        </>
+            <LoginForm></LoginForm>
+            </>
     )
 }
 

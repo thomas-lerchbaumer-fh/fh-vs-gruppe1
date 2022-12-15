@@ -11,26 +11,26 @@ import {
 export default (state, action) => {
     switch (action.type) {
         case USER_LOADED:
+            console.log(action.payload)
             return {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                user: action.payload
+                user: action.payload.name,
+                role:action.payload.role.toLowerCase()
             };
         case LOGIN_SUCCESS:
-            console.log(action.payload);
             localStorage.setItem('token', action.payload.accessToken);
-            console.log(localStorage)
             return {
                 ...state,
                 ...action.payload,
                 isAuthenticated: true,
-                loading: false
             };
         case AUTH_ERROR:
         case LOGIN_FAIL:
         case LOGOUT:
-            localStorage.removeItem('token');
+            console.log('you ex?');
+            //localStorage.removeItem('token');
             return {
                 ...state,
                 token: null,

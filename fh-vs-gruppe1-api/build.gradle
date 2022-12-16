@@ -13,7 +13,6 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-
 }
 
 repositories {
@@ -27,9 +26,8 @@ dependencies {
     implementation 'org.springframework.session:spring-session-core'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
-    implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.0'
+    //implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.0'
     // https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime
-    implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '4.0.0'
     implementation 'org.jetbrains:annotations:23.0.0'
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
@@ -46,27 +44,73 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     // https://mvnrepository.com/artifact/org.jvnet.jaxb2.maven2/maven-jaxb2-plugin
     // default JAXB2 libs added by the plugin
-    // https://mvnrepository.com/artifact/org.springframework/spring-oxm
-    implementation group: 'org.springframework', name: 'spring-oxm', version: '6.0.2'
+// https://mvnrepository.com/artifact/org.springframework/spring-oxm
+    implementation group: 'org.springframework', name: 'spring-oxm', version: '3.2.3.RELEASE'
+
+
 // https://mvnrepository.com/artifact/org.springframework.ws/spring-ws-core
-    implementation group: 'org.springframework.ws', name: 'spring-ws-core', version: '4.0.0'
+    implementation group: 'org.springframework.ws', name: 'spring-ws-core', version: '2.2.4.RELEASE'
+
 // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
 
-}
+    //implementation 'org.springframework.ws:spring-ws-core'
 
+
+
+}
 wsdl2java {
     encoding ="ISO-8859-1"
+    includeJava8XmlDependencies="false"
     wsdlsToGenerate = [   //  2d-array of wsdls and cxf-parameters
                           ['-p','com.fh.vs.gruppe1.external.tradingservice.generated','https://edu.dedisys.org/ds-finance/ws/TradingService?wsdl']
             ]
     generatedWsdlDir="src/main/java/"
     locale = Locale.GERMANY
-
-    cxfVersion = "2.5.1"
-    cxfPluginVersion = "2.4.0"
+    cxfVersion = "2.7.0"
+    cxfPluginVersion = "2.7.0"
 
 }
+
+
+// tag::wsdl[]
+//task genJaxb {
+//    ext.sourcesDir = "${buildDir}/generated-sources/jaxb"
+//    ext.classesDir = "${buildDir}/classes/jaxb"
+//    ext.schema = "https://edu.dedisys.org/ds-finance/ws/TradingService?wsdl"
+//
+//    outputs.dir classesDir
+//
+//    doLast() {
+//        project.ant {
+//            taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
+//                    classpath: configurations.jaxb.asPath
+//            mkdir(dir: sourcesDir)
+//            mkdir(dir: classesDir)
+//
+//            xjc(destdir: sourcesDir, schema: schema,
+//                    package: "com.fh.vs.gruppe1.external.tradingservice.generated") {
+//                arg(value: "-wsdl",encoding:"ISO-8859-1")
+//                produces(dir: sourcesDir, includes: "**/*.java")
+//            }
+//
+//            javac(destdir: classesDir, source: 1.8, target: 1.8, debug: true,
+//                    debugLevel: "lines,vars,source",
+//                    classpath: configurations.jaxb.asPath) {
+//                src(path: sourcesDir)
+//                include(name: "**/*.java")
+//                include(name: "*.java")
+//            }
+//
+//            copy(todir: classesDir) {
+//                fileset(dir: sourcesDir, erroronmissingdir: false) {
+//                    exclude(name: "**/*.java")
+//                }
+//            }
+//        }
+//    }
+//}
+// end::wsdl[]
 
 tasks.named('test') {
     useJUnitPlatform()

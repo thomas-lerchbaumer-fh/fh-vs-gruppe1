@@ -1,4 +1,5 @@
 package com.fh.vs.gruppe1.dev;
+
 import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.account.Employee;
@@ -6,6 +7,9 @@ import com.fh.vs.gruppe1.account.repository.EmployeeRepository;
 import com.fh.vs.gruppe1.account.repository.PersonRepository;
 import com.fh.vs.gruppe1.depot.Depot;
 import com.fh.vs.gruppe1.depot.DepotRepository;
+import com.fh.vs.gruppe1.external.tradingservice.TradingServiceClient;
+import com.fh.vs.gruppe1.external.tradingservice.config.TradingServiceConfig;
+import com.fh.vs.gruppe1.external.tradingservice.tmp.FindStockQuotesByCompanyNameResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -22,9 +26,10 @@ import java.util.logging.Logger;
 @Slf4j
 @Transactional(readOnly = false)
 @Order(0)
-public class TestDataService implements ApplicationRunner
-{
+public class TestDataService implements ApplicationRunner {
 
+    @Autowired
+    private TradingServiceClient tradingServiceClient;
 
 
     @Autowired
@@ -43,13 +48,13 @@ public class TestDataService implements ApplicationRunner
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(hibernateProperties.getDdlAuto().startsWith("create")){
+        if (hibernateProperties.getDdlAuto().startsWith("create")) {
             logger.info("population data to db  ");
             this.populate();
         }
     }
 
-    public void populate(){
+    public void populate() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Customer customer = new Customer();
         customer.setFirstName("Thomas");
@@ -60,7 +65,6 @@ public class TestDataService implements ApplicationRunner
         dep.setName(depName);
         dep.setCustomer(customer);
         depotRepository.save(dep);
-
 
 
         Employee emp = new Employee();
@@ -74,6 +78,8 @@ public class TestDataService implements ApplicationRunner
         customer.setEmail("client@client.at");
         customerRepository.save(customer);
 
+        FindStockQuotesByCompanyNameResponse res = tradingServiceClient.getStockQuotebyCompanyName("apple").getValue();
+        log.info(res.getReturn().toString() + " MY RES ");
 
 
     }

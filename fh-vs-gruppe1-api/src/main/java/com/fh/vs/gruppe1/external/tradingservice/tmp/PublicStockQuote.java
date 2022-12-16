@@ -1,16 +1,13 @@
 
-package com.fh.vs.gruppe1.external.tradingservice.generated;
+package com.fh.vs.gruppe1.external.tradingservice.tmp;
 
 import java.math.BigDecimal;
+import javax.xml.bind.annotation.*;
 import javax.xml.datatype.XMLGregorianCalendar;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für publicStockQuote complex type.
+ * <p>Java-Klasse fï¿½r publicStockQuote complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 

@@ -1,21 +1,22 @@
 
-package com.fh.vs.gruppe1.external.tradingservice.generated;
+package com.fh.vs.gruppe1.external.tradingservice.tmp;
 
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 
 
 /**
- * <p>Java-Klasse für getStockQuotesResponse complex type.
+ * <p>Java-Klasse fï¿½r findStockQuotesByCompanyNameResponse complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>{@code
- * <complexType name="getStockQuotesResponse">
+ * <complexType name="findStockQuotesByCompanyNameResponse">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <sequence>
@@ -29,10 +30,10 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getStockQuotesResponse", propOrder = {
+@XmlType(name = "findStockQuotesByCompanyNameResponse", propOrder = {
     "_return"
 })
-public class GetStockQuotesResponse {
+public class FindStockQuotesByCompanyNameResponse {
 
     @XmlElement(name = "return")
     protected List<PublicStockQuote> _return;

@@ -1,10 +1,9 @@
 
-package com.fh.vs.gruppe1.external.tradingservice.generated;
+package com.fh.vs.gruppe1.external.tradingservice.tmp;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.*;
 import javax.xml.namespace.QName;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
 
 
 /**

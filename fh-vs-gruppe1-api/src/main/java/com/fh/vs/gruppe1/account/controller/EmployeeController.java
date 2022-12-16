@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -38,8 +35,8 @@ public class EmployeeController {
         return "Hello World";
     }
 
-    @GetMapping("/searchUser")
-    public ResponseEntity<List<SearchCustomerProjection>> loadUser(@CurrentSecurityContext(expression = "authentication.name")
+    @PostMapping("/searchUser")
+    public ResponseEntity<List<SearchCustomerProjection>> searchUser(@CurrentSecurityContext(expression = "authentication.name")
                                                    @RequestBody Map<String,String> searchQuery) {
         List<SearchCustomerProjection> customers = customerRepository.findAllBySearchQuery(searchQuery.get("search"));
 

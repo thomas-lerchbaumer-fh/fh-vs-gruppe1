@@ -14,18 +14,19 @@ import javax.xml.bind.JAXBElement;
 @Slf4j
 public class TradingServiceClient extends WebServiceGatewaySupport {
 
-    public JAXBElement<FindStockQuotesByCompanyNameResponse> getStockQuotebyCompanyName(String name) {
+    public JAXBElement<FindStockQuotesByCompanyNameResponse> getStockQuotebyCompanyName(String search) {
 
         ObjectFactory objectFactory = new ObjectFactory();
 
         FindStockQuotesByCompanyName req = objectFactory.createFindStockQuotesByCompanyName();
-        req.setPartOfCompanyName(name);
+        req.setPartOfCompanyName(search);
 
         JAXBElement<FindStockQuotesByCompanyName> jaxbElement = objectFactory.createFindStockQuotesByCompanyName(req);
         log.info(jaxbElement+ " FIIIIIIIIIIIIIIIIIIIIIREEEEEEEEEEEEEEEEEEEEEEEEDDD ");
 
         return (JAXBElement<FindStockQuotesByCompanyNameResponse>) getWebServiceTemplate().marshalSendAndReceive(jaxbElement);
     }
+
 
 
 }

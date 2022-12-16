@@ -1,10 +1,13 @@
 package com.fh.vs.gruppe1.depot;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Fetch;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -30,13 +33,14 @@ public class Depot {
     private Instant createdAt = Instant.now();
 
 
-    @OneToOne
-    @Getter
-    @Setter
-    private Customer customer;
+//    @OneToOne
+//    @Getter
+//    @Setter
+//    private Customer customer;
 
-    @OneToMany(mappedBy = "depot", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Getter
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "depot", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ClientOrder> transactions;
 
     /* Getters and setters */

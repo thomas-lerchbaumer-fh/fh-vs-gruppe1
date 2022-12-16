@@ -10,6 +10,8 @@ import com.fh.vs.gruppe1.depot.DepotRepository;
 import com.fh.vs.gruppe1.external.tradingservice.TradingServiceClient;
 import com.fh.vs.gruppe1.external.tradingservice.config.TradingServiceConfig;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.FindStockQuotesByCompanyNameResponse;
+import com.fh.vs.gruppe1.transaction.ClientOrder;
+import com.fh.vs.gruppe1.transaction.ClientOrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -46,6 +48,9 @@ public class TestDataService implements ApplicationRunner {
     @Autowired
     private DepotRepository depotRepository;
 
+    @Autowired
+    private ClientOrderRepository clientOrderRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if (hibernateProperties.getDdlAuto().startsWith("create")) {
@@ -63,8 +68,16 @@ public class TestDataService implements ApplicationRunner {
         Depot dep = new Depot();
         String depName = customer.getFirstName() + " " + customer.getSurname() + " depot";
         dep.setName(depName);
-        dep.setCustomer(customer);
         depotRepository.save(dep);
+
+        customer.setDepot(dep);
+
+        ClientOrder co = new ClientOrder();
+        co.setSymbol("TE");
+        co.setAmount(2);
+        co.setDepot(customer.getDepot());
+        co.setUnitPrice(12.33);
+        clientOrderRepository.save(co);
 
 
         Employee emp = new Employee();

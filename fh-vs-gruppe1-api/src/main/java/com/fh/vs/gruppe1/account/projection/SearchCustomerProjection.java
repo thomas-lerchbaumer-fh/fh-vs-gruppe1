@@ -12,6 +12,6 @@ public interface SearchCustomerProjection {
     String getFirstName();
     String getEmail();
     String getSurname();
-    Depot depot();
+    Depot getDepot();
 
 }

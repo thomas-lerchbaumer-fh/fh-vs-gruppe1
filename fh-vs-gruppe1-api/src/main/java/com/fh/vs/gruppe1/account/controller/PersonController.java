@@ -3,8 +3,10 @@ package com.fh.vs.gruppe1.account.controller;
 
 import com.fh.vs.gruppe1.account.Person;
 import com.fh.vs.gruppe1.account.repository.PersonRepository;
+import com.fh.vs.gruppe1.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -26,12 +28,11 @@ public class PersonController {
 
 
     @GetMapping("/loadUser")
-    public ResponseEntity<?> loadUser(@CurrentSecurityContext(expression = "authentication.name")
+    public ResponseEntity<UserDto> loadUser(@CurrentSecurityContext(expression = "authentication.name")
                                       String username) {
         Optional<Person> p = personRepository.findByEmail(username);
-        JSONObject resp = new JSONObject();
-        resp.put("role", p.get().getClass().getSimpleName());
-        return new ResponseEntity<>(resp, HttpStatus.OK);
+        UserDto user = new UserDto(p.get(),p.get().getClass().getSimpleName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
 
     }
 

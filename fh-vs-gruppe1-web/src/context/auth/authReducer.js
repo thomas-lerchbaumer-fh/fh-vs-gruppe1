@@ -11,7 +11,7 @@ import {
 export default (state, action) => {
     switch (action.type) {
         case USER_LOADED:
-            console.log(action.payload)
+
             return {
                 ...state,
                 isAuthenticated: true,
@@ -29,8 +29,7 @@ export default (state, action) => {
         case AUTH_ERROR:
         case LOGIN_FAIL:
         case LOGOUT:
-            console.log('you ex?');
-            //localStorage.removeItem('token');
+            localStorage.removeItem('token');
             return {
                 ...state,
                 token: null,

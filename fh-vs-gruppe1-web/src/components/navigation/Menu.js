@@ -110,8 +110,10 @@ export default function MiniDrawer(props) {
     const {login, error, clearErrors, isAuthenticated, loadUser, loading, user, role, logout} = authContext;
 
     useEffect(() => {
-        loadUser()
-        console.log(role)
+        if (localStorage.getItem("token")) {
+            loadUser()
+        }
+
     }, [loading]);
 
     return (
@@ -135,17 +137,18 @@ export default function MiniDrawer(props) {
                         Trading-service Wirecard
                     </Typography>
                     {isAuthenticated && !loading &&
-                    <Box sx={{position:"absolute",right:10}} display={"flex"} flexDirection={"row"} alignItems={"center"}>
-                        <Avatar
-                            sx={{ bgcolor: "orange" }}
-                            alt="Remy Sharp"
-                        >
-                            {role == "employee" ? "A": "C"}
-                        </Avatar>
-                        <IconButton color={"white"} onClick={logout}>
-                            <LogoutIcon color={"white"} sx={{color:"white"}} ></LogoutIcon>
-                        </IconButton>
-                    </Box>
+                        <Box sx={{position: "absolute", right: 10}} display={"flex"} flexDirection={"row"}
+                             alignItems={"center"}>
+                            <Avatar
+                                sx={{bgcolor: "orange"}}
+                                alt="Remy Sharp"
+                            >
+                                {role == "employee" ? "A" : "C"}
+                            </Avatar>
+                            <IconButton color={"white"} onClick={logout}>
+                                <LogoutIcon color={"white"} sx={{color: "white"}}></LogoutIcon>
+                            </IconButton>
+                        </Box>
                     }
                 </Toolbar>
             </AppBar>

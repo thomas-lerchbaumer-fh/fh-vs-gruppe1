@@ -6,17 +6,6 @@ import EmployeeContext from "../../../context/employee/employeeContext";
 import Typography from "@mui/material/Typography";
 
 
-
-
-
-
-
-
-
-
-
-
-
 const SearchCustomer = (props) => {
     const alertContext = useContext(AlertContext);
     const {setAlert} = alertContext;
@@ -24,26 +13,23 @@ const SearchCustomer = (props) => {
     const employeeContext = useContext(EmployeeContext);
     const {searchCustomer, loadingEmp} = employeeContext;
 
-    const [search,setSearch] = useState('');
+    const [search, setSearch] = useState('');
 
-    const onChange = (e) => setSearch(e.target.search);
+    const onChange = (e) => {
+        setSearch(e.target.value);
+    }
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (search.length < 2) {
-            setAlert("Please set ", 'error');
-        } else {
-            searchCustomer({
-
-            })
-        }
+        (search.length <= 2) ? setAlert('Please add at least 2 characters', 'info') : searchCustomer({search})
     }
 
-    return(
+    return (
         <>
             <Typography variant={"body2"}> Below you can search for customers</Typography>
-            <Grid container spacing={1} justifyContent="center" aligItems={"center"} alignContent="center" className={"searchC"}>
-                <Grid item xs={4} md={4} xl={4}>
+            <Grid container justifyContent="center" alignItems={"center"} alignContent="center" className={"searchC"}
+                  minWidth={"60vw"} width={"100%"}>
+                <Grid item xs={4}>
                     <TextField
                         required
                         fullWidth
@@ -53,9 +39,9 @@ const SearchCustomer = (props) => {
                         value={search}
                     />
                 </Grid>
-                    <Grid item xs={3} md={3} xl={3}>
-                        <Button variant="contained" onClick={onSubmit}>Search</Button>
-                    </Grid>
+                <Grid item xs={2}>
+                    <Button variant="contained" onClick={onSubmit}>Search</Button>
+                </Grid>
             </Grid>
         </>
 
@@ -63,7 +49,6 @@ const SearchCustomer = (props) => {
 
 
 }
-
 
 
 export default SearchCustomer;

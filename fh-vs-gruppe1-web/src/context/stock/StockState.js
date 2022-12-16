@@ -1,7 +1,7 @@
 import React, {useCallback, useReducer} from 'react';
 import axios from 'axios';
-import EmployeeContext from "./employeeContext";
-import employeeReducer from './employeeReducer';
+import StockContext from "./stockContext";
+import stockReducer from './stockReducer';
 import setAuthToken from '../../utils/setAuthToken';
 import {
     USER_LOADED,
@@ -9,20 +9,20 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     CLEAR_ERRORS,
-    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING
+    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, STOCK_SEARCH
 } from '../types';
 
-const EmployeeState = props =>{
+const StockState = props =>{
 
     const initialState = {
-        loadingEmp: true,
-        customers:[],
+        loadingStock: true,
+        stocks:[],
         error: null,
     };
 
-    const [state, dispatch] = useReducer(employeeReducer, initialState);
+    const [state, dispatch] = useReducer(stockReducer, initialState);
 
-    const searchCustomer = useCallback(async (formData) => {
+    const searchStock = useCallback(async (formData) => {
         const headers = {
             'Content-Type': 'application/json'
         }
@@ -34,12 +34,12 @@ const EmployeeState = props =>{
         setAuthToken(localStorage.token);
 
         try {
-            const res = await axios.post('/api/employee/searchUser',formData,{
+            const res = await axios.post('/api/searchStock',formData,{
                 headers: headers
             })
 
             dispatch({
-                type: CUSTOMER_SEARCH_LOADED,
+                type: STOCK_SEARCH,
                 payload: res.data
             });
         } catch (err) {
@@ -49,16 +49,16 @@ const EmployeeState = props =>{
 
 
     return(
-        <EmployeeContext.Provider
+        <StockContext.Provider
             value={{
-                loadingEmp: state.loadingEmp,
-                customers: state.customers,
-                searchCustomer
+                loadingStock: state.loadingStock,
+                stocks: state.stocks,
+                searchStock
             }}
-            >
+        >
             {props.children}
-        </EmployeeContext.Provider>
+        </StockContext.Provider>
     )
 }
 
-export default EmployeeState;
+export default StockState;

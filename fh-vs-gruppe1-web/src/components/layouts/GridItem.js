@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const GridItem = (props) =>{
 
     return(
-        <Item elevation={1}>
+        <Item elevation={7}>
             {props.children}
         </Item>
     )

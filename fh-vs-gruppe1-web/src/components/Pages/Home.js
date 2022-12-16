@@ -21,9 +21,8 @@ const Home = (props) => {
 
 
     return (
-        (loading) ? <CircularProgress></CircularProgress> :
-            <>
 
+            <>
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     {!isAuthenticated &&
                         <>
@@ -31,17 +30,17 @@ const Home = (props) => {
                             <LoginForm></LoginForm>
                         </>
                     }
+                    {isAuthenticated &&
                     <Grid container spacing={4} width={"100%"}>
                         <Typography>Welcome back {user}. Your role: {role}</Typography>
                         {role === "employee" &&
                             <Grid item xs={12}>
-
                                 <EmployeeHome></EmployeeHome>
                             </Grid>
                         }
+
                     </Grid>
-
-
+                    }
                 </Box>
 
             </>

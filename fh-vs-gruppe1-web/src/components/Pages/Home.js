@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import GridItem from "../layouts/GridItem";
 import EmployeeHome from "../employee/EmployeeHome";
+import CustomerHome from "../employee/CustomerHome";
 
 
 const Home = (props) => {
@@ -36,6 +37,11 @@ const Home = (props) => {
                         {role === "employee" &&
                             <Grid item xs={12}>
                                 <EmployeeHome></EmployeeHome>
+                            </Grid>
+                        }
+                        {role === "customer" &&
+                            <Grid item xs={12}>
+                                <CustomerHome></CustomerHome>
                             </Grid>
                         }
 

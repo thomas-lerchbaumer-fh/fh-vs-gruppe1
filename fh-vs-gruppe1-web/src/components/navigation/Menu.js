@@ -161,26 +161,51 @@ export default function MiniDrawer(props) {
                 <Divider/>
                 <List>
                     {menuEntries.map((item, index) => (
-                        <ListItem key={index} disablePadding sx={{display: 'block'}} component={Link} to={item.navTo}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
+                        <>
+                            {item.protected==="employee" && role==="employee" &&
+                            <ListItem key={index} disablePadding sx={{display: 'block'}} component={Link} to={item.navTo}>
+                                <ListItemButton
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
                                     }}
                                 >
-                                    <DynamicIcon name={item.icon}></DynamicIcon>
-                                </ListItemIcon>
-                                <ListItemText primary={item.title} sx={{opacity: open ? 1 : 0}}/>
-                            </ListItemButton>
-                        </ListItem>
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <DynamicIcon name={item.icon}></DynamicIcon>
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.title} sx={{opacity: open ? 1 : 0}}/>
+                                </ListItemButton>
+                            </ListItem>}
+
+                            {item.protected==="none" &&
+                                <ListItem key={index} disablePadding sx={{display: 'block'}} component={Link} to={item.navTo}>
+                                    <ListItemButton
+                                        sx={{
+                                            minHeight: 48,
+                                            justifyContent: open ? 'initial' : 'center',
+                                            px: 2.5,
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: open ? 3 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            <DynamicIcon name={item.icon}></DynamicIcon>
+                                        </ListItemIcon>
+                                        <ListItemText primary={item.title} sx={{opacity: open ? 1 : 0}}/>
+                                    </ListItemButton>
+                                </ListItem>}
+                        </>
                     ))}
                 </List>
                 <Divider/>

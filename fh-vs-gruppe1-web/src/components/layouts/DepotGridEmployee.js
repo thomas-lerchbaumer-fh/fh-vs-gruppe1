@@ -32,13 +32,16 @@ const DepotGridEmployee = props =>{
 
 
     const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
+        // createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+        // createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+        // createData('Eclair', 262, 16.0, 24, 6.0),
+        // createData('Cupcake', 305, 3.7, 67, 4.3),
+        // createData('Gingerbread', 356, 16.0, 49, 3.9),
     ];
-
+    console.log(props, 'test');
+    props.depot.transactions.forEach(item => {
+        rows.push(createData(item.symbol,item.amount,item.unitPrice,item.date))
+    })
 
     return(
         <TableContainer component={Paper}>
@@ -58,10 +61,10 @@ const DepotGridEmployee = props =>{
                             <StyledTableCell component="th" scope="row">
                                 {row.name}
                             </StyledTableCell>
-                            <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                            <StyledTableCell align="right">{row.symbol}</StyledTableCell>
+                            <StyledTableCell align="right">{row.amount}</StyledTableCell>
+                            <StyledTableCell align="right">{row.unitPrice}</StyledTableCell>
+                            <StyledTableCell align="right">{row.date}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

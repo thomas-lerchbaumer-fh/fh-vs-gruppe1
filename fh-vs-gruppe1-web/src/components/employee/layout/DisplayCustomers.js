@@ -67,7 +67,7 @@ const DisplayCustomers = (props) => {
                         timeout='auto'
                         unmountOnExit
                         >
-                       {/*<DepotGridEmployee depot={customer.depot}></DepotGridEmployee>*/}
+                       <DepotGridEmployee depot={customer.depot}></DepotGridEmployee>
                         </Collapse>
                         </Box>
 

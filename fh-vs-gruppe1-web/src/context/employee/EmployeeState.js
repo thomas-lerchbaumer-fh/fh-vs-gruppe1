@@ -47,13 +47,41 @@ const EmployeeState = props =>{
         }
     }, [dispatch]);
 
+    const createCustomer = useCallback(async (formData) => {
+        const headers = {
+            'Content-Type': 'application/json'
+        }
+        dispatch({
+            type: SET_LOADING,
+            payload:true
+        })
+
+        setAuthToken(localStorage.token);
+
+        console.log(formData);
+
+        try {
+            const res = await axios.post('/api/employee/createCustomer',formData,{
+                headers: headers
+            })
+
+            dispatch({
+                type: CUSTOMER_SEARCH_LOADED,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({type: AUTH_ERROR});
+        }
+    }, [dispatch]);
+
 
     return(
         <EmployeeContext.Provider
             value={{
                 loadingEmp: state.loadingEmp,
                 customers: state.customers,
-                searchCustomer
+                searchCustomer,
+                createCustomer
             }}
             >
             {props.children}

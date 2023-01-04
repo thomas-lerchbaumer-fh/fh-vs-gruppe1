@@ -26,7 +26,7 @@ const AvailableRoutes = (props) => {
                 {/*    }*/}
                 {/*/>*/}
                 <Route exact path='/' element={<Home/>}></Route>
-                {user != null && user.role==='employee' && <Route exact path='/addcustomer' element={<AddCustomer/>}></Route>}
+                <Route exact path='/addcustomer' element={<AddCustomer/>}></Route>
                 <Route exact path='/login' element={<Login/>}></Route>
 
             </Routes>

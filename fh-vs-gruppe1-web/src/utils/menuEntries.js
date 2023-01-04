@@ -5,9 +5,9 @@ const menuEntries = [{
     "protected":'none',
 },
 {
-    "title": "Add Customer",
+    "title": "Accounts",
     "icon": "PersonAddAlt1",
-    "navTo": '/addcustomer',
+    "navTo": '/accounts',
     "protected":'employee',
 },
 

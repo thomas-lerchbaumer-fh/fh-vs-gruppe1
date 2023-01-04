@@ -3,9 +3,9 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import GridItem from "../layouts/GridItem";
 import StockContext from "../../context/stock/stockContext";
-import CreateCustomer from "./forms/CreateCustomer";
+import CreateAccount from "./forms/CreateAccount";
 
-const EmployeeCustomerAdministration = (props) => {
+const AccountAdministration = (props) => {
     useEffect(() => {}, );
     const stockContext = useContext(StockContext);
     const {stocks, loadingStock} = stockContext;
@@ -18,7 +18,7 @@ const EmployeeCustomerAdministration = (props) => {
             <Grid item xs={12}> <GridItem>
                 <Grid container>
                     <Grid item xs={12}>
-                        <CreateCustomer></CreateCustomer>
+                        <CreateAccount></CreateAccount>
                     </Grid>
                 </Grid>
             </GridItem>
@@ -27,4 +27,4 @@ const EmployeeCustomerAdministration = (props) => {
     )
 }
 
-export default EmployeeCustomerAdministration;
+export default AccountAdministration;

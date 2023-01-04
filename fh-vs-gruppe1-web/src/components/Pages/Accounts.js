@@ -7,10 +7,10 @@ import LoginForm from "../forms/LoginForm";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import GridItem from "../layouts/GridItem";
-import EmployeeCustomerAdministration from "../employee/EmployeeCustomerAdministration";
+import AccountAdministration from "../employee/AccountAdministration";
 
 
-const Home = (props) => {
+const Accounts = (props) => {
     const authContext = useContext(AuthContext);
     const {login, error, clearErrors, user, isAuthenticated, loadUser, loading, role} = authContext;
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Home = (props) => {
                         <Typography>Welcome back {user}. Your role: {role}</Typography>
                         {role === "employee" &&
                             <Grid item xs={12}>
-                                <EmployeeCustomerAdministration></EmployeeCustomerAdministration>
+                                <AccountAdministration></AccountAdministration>
                             </Grid>
                         }
 
@@ -48,4 +48,4 @@ const Home = (props) => {
 
 }
 
-export default Home
+export default Accounts

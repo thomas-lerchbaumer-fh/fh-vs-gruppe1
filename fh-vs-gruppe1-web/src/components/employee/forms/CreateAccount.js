@@ -1,12 +1,12 @@
 import React, {useContext, useState} from 'react';
 import Grid from "@mui/material/Unstable_Grid2";
-import {Button, TextField} from "@mui/material";
+import {Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
 import AlertContext from "../../../context/alert/alertContext";
 import EmployeeContext from "../../../context/employee/employeeContext";
 import Typography from "@mui/material/Typography";
 
 
-const CreateCustomer = (props) => {
+const CreateAccount = (props) => {
     const [customer, setCustomer] = useState({});
 
     const alertContext = useContext(AlertContext);
@@ -35,7 +35,7 @@ const CreateCustomer = (props) => {
 
     return (
         <>
-            <Typography variant={"body2"}> Below you can create a new customer</Typography>
+            <Typography variant={"body2"}> Below you can create create a new Customer or Employee Account</Typography>
             <form onSubmit={onSubmit}>
                 <Grid container justifyContent="center" direction="row" alignItems={"center"} alignContent="center"
                       className={"createC"} minWidth={"60vw"} width={"100%"}>
@@ -87,8 +87,8 @@ const CreateCustomer = (props) => {
                         <TextField
                             required
                             fullWidth
-                            type="text"
-                            label="Housenumber"
+                            type="number"
+                            label="House Number"
                             name="housenumber"
                             onChange={handleInputChange}
                             value={customer.housenumber}
@@ -98,7 +98,7 @@ const CreateCustomer = (props) => {
                         <TextField
                             required
                             fullWidth
-                            type="text"
+                            type="number"
                             label="Postal Code"
                             name="postcode"
                             onChange={handleInputChange}
@@ -116,6 +116,14 @@ const CreateCustomer = (props) => {
                             value={customer.city}
                         />
                     </Grid>
+                    <Grid item xs={4}>
+                        <FormControlLabel
+                            control={<Checkbox
+                            />}
+                            label="Employee?"
+                            labelPlacement="end"
+                        />
+                    </Grid>
                     <Grid item xs={2}>
                         <Button variant="contained" type="submit">Create</Button>
                     </Grid>
@@ -126,4 +134,4 @@ const CreateCustomer = (props) => {
     )
 }
 
-export default CreateCustomer;
+export default CreateAccount;

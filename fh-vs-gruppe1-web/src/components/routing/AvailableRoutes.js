@@ -6,7 +6,7 @@ import PrivateRoute from "./PrivateRoute";
 import Home from "../Pages/Home";
 import AuthContext from "../../context/auth/authContext";
 import Login from "../Pages/Login";
-import AddCustomer from "../Pages/AddCustomer";
+import Accounts from "../Pages/Accounts";
 
 const AvailableRoutes = (props) => {
     const authContext = useContext(AuthContext);
@@ -26,7 +26,7 @@ const AvailableRoutes = (props) => {
                 {/*    }*/}
                 {/*/>*/}
                 <Route exact path='/' element={<Home/>}></Route>
-                <Route exact path='/addcustomer' element={<AddCustomer/>}></Route>
+                <Route exact path='/accounts' element={<Accounts/>}></Route>
                 <Route exact path='/login' element={<Login/>}></Route>
 
             </Routes>

@@ -1,9 +1,7 @@
 package com.fh.vs.gruppe1.external.tradingservice;
 
 
-import com.fh.vs.gruppe1.external.tradingservice.tmp.FindStockQuotesByCompanyName;
-import com.fh.vs.gruppe1.external.tradingservice.tmp.FindStockQuotesByCompanyNameResponse;
-import com.fh.vs.gruppe1.external.tradingservice.tmp.ObjectFactory;
+import com.fh.vs.gruppe1.external.tradingservice.tmp.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
@@ -22,11 +20,22 @@ public class TradingServiceClient extends WebServiceGatewaySupport {
         req.setPartOfCompanyName(search);
 
         JAXBElement<FindStockQuotesByCompanyName> jaxbElement = objectFactory.createFindStockQuotesByCompanyName(req);
-        log.info(jaxbElement+ " FIIIIIIIIIIIIIIIIIIIIIREEEEEEEEEEEEEEEEEEEEEEEEDDD ");
 
         return (JAXBElement<FindStockQuotesByCompanyNameResponse>) getWebServiceTemplate().marshalSendAndReceive(jaxbElement);
     }
 
+
+    public JAXBElement<GetStockQuotesResponse> getStockQuotes(String name) {
+
+        ObjectFactory objectFactory = new ObjectFactory();
+
+        GetStockQuotes req = objectFactory.createGetStockQuotes();
+        req.getSymbols().add(name);
+
+        JAXBElement<GetStockQuotes> jaxbElement = objectFactory.createGetStockQuotes(req);
+
+        return (JAXBElement<GetStockQuotesResponse>) getWebServiceTemplate().marshalSendAndReceive(jaxbElement);
+    }
 
 
 }

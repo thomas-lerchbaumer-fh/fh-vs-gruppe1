@@ -1,12 +1,14 @@
 package com.fh.vs.gruppe1.transaction;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.Instant;
@@ -31,6 +33,11 @@ public class ClientOrder {
     @Getter
     @Setter
     private double unitPrice;
+
+    @Transient
+    @Setter
+    @Getter
+    private double currentPrice;
 
     @CreationTimestamp
     @Getter

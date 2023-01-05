@@ -14,8 +14,11 @@ import java.util.UUID;
 @Entity
 public class Employee extends Person {
 
+    /* check back with Thomas
     @Column
     private LocalDate dateOfEntry;
+
+     */
 
 
 }

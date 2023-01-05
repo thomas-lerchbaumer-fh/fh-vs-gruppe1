@@ -2,10 +2,12 @@ package com.fh.vs.gruppe1.account.controller;
 
 
 import com.fh.vs.gruppe1.account.Customer;
+import com.fh.vs.gruppe1.account.Employee;
 import com.fh.vs.gruppe1.account.Person;
 import com.fh.vs.gruppe1.account.projection.SearchCustomerProjection;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.account.service.CustomerService;
+import com.fh.vs.gruppe1.account.service.EmployeeService;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
 import com.fh.vs.gruppe1.dto.UserDto;
@@ -33,6 +35,8 @@ import java.util.UUID;
 @Slf4j
 public class EmployeeController {
 
+    private final EmployeeService eservice;
+
     @Autowired
     public CustomerRepository customerRepository;
 
@@ -41,6 +45,8 @@ public class EmployeeController {
 
     @Autowired
     public BankService bankService;
+
+
 
 
 
@@ -74,5 +80,11 @@ public class EmployeeController {
 
     }
 
+    @PostMapping("/createUser")
+    public ResponseEntity<Employee> createUser(@RequestBody Employee employeeInput) {
+        Employee employee = eservice.saveEmployee(employeeInput);
+
+        return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
+    }
 
 }

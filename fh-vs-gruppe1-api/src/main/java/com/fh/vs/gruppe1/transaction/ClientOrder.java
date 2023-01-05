@@ -15,7 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="client_order")
+@Table(name="Transaction")
 public class ClientOrder {
 
     @Id
@@ -24,14 +24,19 @@ public class ClientOrder {
 
     @Getter
     @Setter
+    @Column(name="t_symbol")
     private String symbol;
 
     @Getter
     @Setter
+
+    @Column(name="t_amount")
     private int amount;
 
     @Getter
     @Setter
+
+    @Column(name="t_unitprice")
     private double unitPrice;
 
     @Transient
@@ -41,10 +46,11 @@ public class ClientOrder {
 
     @CreationTimestamp
     @Getter
+    @Column(name="t_datetime")
     private LocalDateTime orderDate;
 
     @ManyToOne
-    @JoinColumn(name = "depot_id")
+    @JoinColumn(name = "d_id")
     @JsonBackReference
     @Setter
     private Depot depot;

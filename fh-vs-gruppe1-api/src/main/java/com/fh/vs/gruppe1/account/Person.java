@@ -28,14 +28,19 @@ public abstract class Person {
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
+    /* check back with Thomas
     @Getter
     @Setter
     @Column(unique=true)
     private String email;
 
+     */
 
+/* check back with Thomas
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+ */
 
 
     @Getter
@@ -46,13 +51,13 @@ public abstract class Person {
 
     @Getter
     @Setter
-    @Column(nullable = false)
+    @Column(nullable = false, name="p_surname")
     private String surname;
 
     @Getter
     @Setter
-    @Column(nullable = false)
-    private String firstName;
+    @Column(nullable = false, name="p_firstname")
+    private String firstname;
 
 
 }

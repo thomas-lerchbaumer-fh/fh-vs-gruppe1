@@ -2,6 +2,7 @@ import React from 'react'
 import {styled} from "@mui/material/styles";
 import {Table, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow} from "@mui/material";
 import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -23,8 +24,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(symbol, amount, unitPrice, date) {
-    return { symbol, amount, unitPrice, date };
+function createData(symbol, amount, unitPrice, date, currentPrice) {
+    return { symbol, amount, unitPrice, date, currentPrice };
 }
 
 
@@ -40,7 +41,7 @@ const DepotGridEmployee = props =>{
     ];
     console.log(props, 'test');
     props.depot.transactions.forEach(item => {
-        rows.push(createData(item.symbol,item.amount,item.unitPrice,item.date))
+        rows.push(createData(item.symbol,item.amount,item.unitPrice,item.orderDate,item.currentPrice))
     })
 
     return(
@@ -48,8 +49,8 @@ const DepotGridEmployee = props =>{
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Dessert (100g serving)</StyledTableCell>
                         <StyledTableCell align="right">Symbol</StyledTableCell>
+                        <StyledTableCell align="right">Order date</StyledTableCell>
                         <StyledTableCell align="right">amount</StyledTableCell>
                         <StyledTableCell align="right">Buying price per share</StyledTableCell>
                         <StyledTableCell align="right">Selling price per share</StyledTableCell>
@@ -58,18 +59,21 @@ const DepotGridEmployee = props =>{
                 <TableBody>
                     {rows.map((row) => (
                         <StyledTableRow key={row.name}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.name}
-                            </StyledTableCell>
                             <StyledTableCell align="right">{row.symbol}</StyledTableCell>
+                            <StyledTableCell align="right">{row.date}</StyledTableCell>
                             <StyledTableCell align="right">{row.amount}</StyledTableCell>
                             <StyledTableCell align="right">{row.unitPrice}</StyledTableCell>
-                            <StyledTableCell align="right">{row.date}</StyledTableCell>
+                            <StyledTableCell align="right">{row.currentPrice}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
+                <TableRow>
+                    <TableCell rowSpan={3}><Typography sx={{fontWeight: 'bold'}}>Total Depot Value</Typography></TableCell>
+                    <TableCell colSpan={3}><Typography sx={{fontWeight: 'bold'}}>{props.depot.currentTotalDepotValue} €</Typography></TableCell>
+                </TableRow>
             </Table>
         </TableContainer>
+
     )
 
 

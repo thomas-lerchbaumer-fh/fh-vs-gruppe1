@@ -45,6 +45,20 @@ const EmployeeHome = (props) => {
                     </Grid>
                 </GridItem>
             </Grid>
+            <Grid item xs={12}>
+                <GridItem>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <SearchStockForm></SearchStockForm>
+                        </Grid>
+                        {!loadingStock && stocks &&
+                            <Grid item xs={12}>
+                                <StockGrid stocks={stocks} ></StockGrid>
+                            </Grid>
+                        }
+                    </Grid>
+                </GridItem>
+            </Grid>
         </>
     )
 

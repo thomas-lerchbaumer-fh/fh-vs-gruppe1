@@ -4,6 +4,7 @@ package com.fh.vs.gruppe1.account.controller;
 import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.Employee;
 import com.fh.vs.gruppe1.account.Person;
+import com.fh.vs.gruppe1.account.projection.AllCustomersProjection;
 import com.fh.vs.gruppe1.account.projection.SearchCustomerProjection;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.account.service.CustomerService;
@@ -85,6 +86,13 @@ public class EmployeeController {
         Employee employee = eservice.saveEmployee(employeeInput);
 
         return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
+    }
+
+    @GetMapping("/getAllCustomers")
+    public ResponseEntity<List<AllCustomersProjection>> getAllCustomers(){
+        List<AllCustomersProjection> customers = customerRepository.findAllProjectedBy();
+
+       return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
 }

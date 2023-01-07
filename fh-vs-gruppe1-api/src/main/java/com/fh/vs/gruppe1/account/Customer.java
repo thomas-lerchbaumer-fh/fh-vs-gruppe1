@@ -16,6 +16,7 @@ public class Customer extends Person {
     @Getter
     @Setter
     @OneToOne
+    @Column(name="d_id")
     private Depot depot;
 
 }

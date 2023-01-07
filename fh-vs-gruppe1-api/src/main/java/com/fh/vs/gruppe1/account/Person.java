@@ -25,7 +25,7 @@ public abstract class Person {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "p_id", updatable = false, nullable = false)
     private String id;
 
     /* check back with Thomas
@@ -46,7 +46,7 @@ public abstract class Person {
     @Getter
     @Setter
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, name="p_password")
     private String password;
 
     @Getter

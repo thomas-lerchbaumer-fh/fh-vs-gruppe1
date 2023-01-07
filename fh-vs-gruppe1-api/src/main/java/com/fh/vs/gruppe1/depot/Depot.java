@@ -22,6 +22,7 @@ public class Depot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
+    @Column(name="d_id")
     private Long id;
 
     @Getter

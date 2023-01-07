@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import Grid from "@mui/material/Unstable_Grid2";
-import {Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
+import {Button, Checkbox, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
 import AlertContext from "../../../context/alert/alertContext";
 import EmployeeContext from "../../../context/employee/employeeContext";
 import Typography from "@mui/material/Typography";
@@ -117,12 +117,10 @@ const CreateAccount = (props) => {
                         />
                     </Grid>
                     <Grid item xs={4}>
-                        <FormControlLabel
-                            control={<Checkbox
-                            />}
-                            label="Employee?"
-                            labelPlacement="end"
-                        />
+                        <RadioGroup defaultValue="Customer" name="privilege" onChange={handleInputChange}>
+                            <FormControlLabel value="customer" control={<Radio />} label="Customer" />
+                            <FormControlLabel value="employee" control={<Radio />} label="Employee" />
+                        </RadioGroup>
                     </Grid>
                     <Grid item xs={2}>
                         <Button variant="contained" type="submit">Create</Button>

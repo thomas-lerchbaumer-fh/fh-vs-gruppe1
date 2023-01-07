@@ -13,7 +13,7 @@ const CreateAccount = (props) => {
     const {setAlert} = alertContext;
 
     const employeeContext = useContext(EmployeeContext);
-    const {createCustomer, loadingEmp} = employeeContext;
+    const {createAccount, loadingEmp} = employeeContext;
 
     const handleInputChange = e => {
         const target = e.target;
@@ -28,7 +28,7 @@ const CreateAccount = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        createCustomer(customer);
+        createAccount(customer);
         setAlert('Data submitted', 'info')
         setCustomer({firstname:'',lastname:'',email:'',streetname:'',housenumber:'',postcode:'',city:''});
     }
@@ -117,7 +117,7 @@ const CreateAccount = (props) => {
                         />
                     </Grid>
                     <Grid item xs={4}>
-                        <RadioGroup defaultValue="Customer" name="privilege" onChange={handleInputChange}>
+                        <RadioGroup defaultValue="customer" name="privilege" onChange={handleInputChange}>
                             <FormControlLabel value="customer" control={<Radio />} label="Customer" />
                             <FormControlLabel value="employee" control={<Radio />} label="Employee" />
                         </RadioGroup>

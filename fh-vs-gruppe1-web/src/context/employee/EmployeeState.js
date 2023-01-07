@@ -9,7 +9,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     CLEAR_ERRORS,
-    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING
+    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION
 } from '../types';
 
 const EmployeeState = props =>{
@@ -47,7 +47,7 @@ const EmployeeState = props =>{
         }
     }, [dispatch]);
 
-    const createCustomer = useCallback(async (formData) => {
+    const createAccount = useCallback(async (formData) => {
         const headers = {
             'Content-Type': 'application/json'
         }
@@ -61,12 +61,12 @@ const EmployeeState = props =>{
         console.log(formData);
 
         try {
-            const res = await axios.post('/api/employee/createCustomer',formData,{
+            const res = await axios.post('/api/employee/createAccount',formData,{
                 headers: headers
             })
 
             dispatch({
-                type: CUSTOMER_SEARCH_LOADED,
+                type: ACCOUNT_CREATION,
                 payload: res.data
             });
         } catch (err) {
@@ -74,6 +74,32 @@ const EmployeeState = props =>{
         }
     }, [dispatch]);
 
+    const empBuyStocks = useCallback(async (formData) => {
+        const headers = {
+            'Content-Type': 'application/json'
+        }
+        dispatch({
+            type: SET_LOADING,
+            payload:true
+        })
+
+        setAuthToken(localStorage.token);
+
+        console.log(formData);
+
+        try {
+            const res = await axios.post('/api/employee/empBuyStocks',formData,{
+                headers: headers
+            })
+
+            dispatch({
+                type: BUY_STOCKS,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({type: AUTH_ERROR});
+        }
+    }, [dispatch]);
 
     return(
         <EmployeeContext.Provider
@@ -81,7 +107,8 @@ const EmployeeState = props =>{
                 loadingEmp: state.loadingEmp,
                 customers: state.customers,
                 searchCustomer,
-                createCustomer
+                createAccount,
+                empBuyStocks
             }}
             >
             {props.children}

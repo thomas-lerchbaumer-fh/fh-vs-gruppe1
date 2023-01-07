@@ -15,7 +15,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name="depot")
+@Table(name="Depot")
 public class Depot {
 
     @Id

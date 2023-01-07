@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@Table(name="Employee")
 public class Employee extends Person {
 
     /* check back with Thomas

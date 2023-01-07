@@ -18,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="Person")
 public abstract class Person {
     @Id
     @GeneratedValue(generator = "UUID")

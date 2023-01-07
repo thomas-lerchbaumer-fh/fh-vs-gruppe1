@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name="Customer")
 public class Customer extends Person {
 
     @Getter

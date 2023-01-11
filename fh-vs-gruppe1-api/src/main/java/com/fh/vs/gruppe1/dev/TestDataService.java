@@ -5,6 +5,8 @@ import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.account.Employee;
 import com.fh.vs.gruppe1.account.repository.EmployeeRepository;
 import com.fh.vs.gruppe1.account.repository.PersonRepository;
+import com.fh.vs.gruppe1.bank.service.Bank;
+import com.fh.vs.gruppe1.bank.service.BankRepository;
 import com.fh.vs.gruppe1.depot.Depot;
 import com.fh.vs.gruppe1.depot.DepotRepository;
 import com.fh.vs.gruppe1.external.tradingservice.TradingServiceClient;
@@ -49,6 +51,9 @@ public class TestDataService implements ApplicationRunner {
     private DepotRepository depotRepository;
 
     @Autowired
+    private BankRepository bankRepository;
+
+    @Autowired
     private ClientOrderRepository clientOrderRepository;
 
     @Override
@@ -60,6 +65,10 @@ public class TestDataService implements ApplicationRunner {
     }
 
     public void populate() {
+        Bank bank = new Bank();
+        bank.setTotalOrderVolume(1000000000.00);
+        bankRepository.save(bank);
+
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Customer customer = new Customer();
         customer.setFirstName("Thomas");

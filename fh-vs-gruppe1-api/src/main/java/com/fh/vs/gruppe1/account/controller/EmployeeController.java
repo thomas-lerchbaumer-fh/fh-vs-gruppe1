@@ -95,4 +95,15 @@ public class EmployeeController {
        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
+    @PostMapping("/buyStock")
+    public ResponseEntity<Customer> buyStock(@RequestBody Map<String,String> request){
+        String symbol = request.get("symbol");
+        Integer amount = Integer.valueOf(request.get("amount"));
+        String userEmail = request.get("userEmail");
+
+        Customer customer = bankService.buyStock(symbol,amount,userEmail);
+        return new ResponseEntity<>(customer,HttpStatus.OK);
+
+    }
+
 }

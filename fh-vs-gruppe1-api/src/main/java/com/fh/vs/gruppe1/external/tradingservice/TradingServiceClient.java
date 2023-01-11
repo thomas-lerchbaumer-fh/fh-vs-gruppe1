@@ -37,5 +37,17 @@ public class TradingServiceClient extends WebServiceGatewaySupport {
         return (JAXBElement<GetStockQuotesResponse>) getWebServiceTemplate().marshalSendAndReceive(jaxbElement);
     }
 
+    public JAXBElement<BuyResponse> buyShares(String symbol, int shares) {
+        ObjectFactory objectFactory = new ObjectFactory();
+
+        Buy req = objectFactory.createBuy();
+        req.setShares(shares);
+        req.setSymbol(symbol);
+
+        JAXBElement<Buy> jaxbElement = objectFactory.createBuy(req);
+
+        return (JAXBElement<BuyResponse>) getWebServiceTemplate().marshalSendAndReceive(jaxbElement);
+    }
+
 
 }

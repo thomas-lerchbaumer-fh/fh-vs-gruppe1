@@ -14,7 +14,7 @@ public class Bank {
 
     @Getter
     @Setter
-    @Column(name="b_volume")
-    private static Long totalOrderVolume;
+    @Column(nullable = false)
+    private Double totalOrderVolume;
 
 }

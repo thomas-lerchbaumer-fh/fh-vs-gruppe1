@@ -13,3 +13,4 @@ export const STOCK_SEARCH = "STOCK_SEARCH";
 export const ACCOUNT_CREATION = "ACCOUNT_CREATION";
 export const BUY_STOCKS = "BUY_STOCKS";
 export const ALL_CUSTOMERS = "ALL_CUSTOMERS";
+export const SELL_STOCKS = "SELL_STOCKS";

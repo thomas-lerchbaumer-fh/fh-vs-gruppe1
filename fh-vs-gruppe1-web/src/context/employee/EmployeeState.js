@@ -9,7 +9,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     CLEAR_ERRORS,
-    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION, ALL_CUSTOMERS
+    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION, ALL_CUSTOMERS, SELL_STOCKS
 } from '../types';
 
 const EmployeeState = props =>{
@@ -128,6 +128,33 @@ const EmployeeState = props =>{
         }
     }, [dispatch]);
 
+    const empSellStocks = useCallback(async (formData) => {
+        const headers = {
+            'Content-Type': 'application/json'
+        }
+        dispatch({
+            type: SET_LOADING,
+            payload:true
+        })
+
+        setAuthToken(localStorage.token);
+
+        console.log(formData);
+
+        try {
+            const res = await axios.post('/api/employee/sellStock',formData,{
+                headers: headers
+            })
+
+            dispatch({
+                type: SELL_STOCKS,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({type: AUTH_ERROR});
+        }
+    }, [dispatch]);
+
     return(
         <EmployeeContext.Provider
             value={{
@@ -138,7 +165,8 @@ const EmployeeState = props =>{
                 empBuyStocks,
                 getAllCustomers,
                 loadingAllCustomers: state.loadingAllCustomers,
-                allCustomers: state.allCustomers
+                allCustomers: state.allCustomers,
+                empSellStocks
             }}
             >
             {props.children}

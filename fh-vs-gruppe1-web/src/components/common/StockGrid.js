@@ -37,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const calculateTotalCost = (buyAmount, pricePerShare) => {
-    return buyAmount * pricePerShare;
+    return (buyAmount * pricePerShare).toFixed(2);
 };
 
 const DepotGridEmployee = (props) => {
@@ -48,8 +48,11 @@ const DepotGridEmployee = (props) => {
     const {empBuyStocks, loadingEmp} = employeeContext;
 
     const [buyAmount, setBuyAmount] = useState(0);
+    const [stock, setStock] = useState({ symbol: '', lastTradePrice: 0 });
+
 
     const handleBuyAmountChange = (event, stock) => {
+        setStock(stock);
         const buyAmount = Number(event.target.value);
         setBuyAmount(buyAmount);
         const totalCost = calculateTotalCost(buyAmount, stock.lastTradePrice);
@@ -57,11 +60,13 @@ const DepotGridEmployee = (props) => {
         stock.totalCost = totalCost;
     };
 
+
+
     const [customer, setCustomer] = useState('');
 
     const onSubmit = (e) => {
         e.preventDefault();
-        empBuyStocks("12345");
+        empBuyStocks({"symbol": stock.symbol, "amount": buyAmount, "userEmail": stock.lastTradePrice});
         setAlert('Data submitted', 'info')
     }
 
@@ -119,7 +124,7 @@ const DepotGridEmployee = (props) => {
                         ))}
                     </TableBody>
                 </Table>
-             </form>
+            </form>
         </TableContainer>
     );
 };

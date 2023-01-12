@@ -9,7 +9,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     CLEAR_ERRORS,
-    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION
+    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION, ALL_CUSTOMERS
 } from '../types';
 
 const EmployeeState = props =>{
@@ -17,6 +17,8 @@ const EmployeeState = props =>{
     const initialState = {
         loadingEmp: true,
         customers:[],
+        allCustomers:[],
+        loadingAllCustomers:true,
         error: null,
     };
 
@@ -88,12 +90,37 @@ const EmployeeState = props =>{
         console.log(formData);
 
         try {
-            const res = await axios.post('/api/employee/empBuyStocks',formData,{
+            const res = await axios.post('/api/employee/buyStock',formData,{
                 headers: headers
             })
 
             dispatch({
                 type: BUY_STOCKS,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({type: AUTH_ERROR});
+        }
+    }, [dispatch]);
+
+    const getAllCustomers = useCallback(async () => {
+        const headers = {
+            'Content-Type': 'application/json'
+        }
+        dispatch({
+            type: SET_LOADING,
+            payload:true
+        })
+
+        setAuthToken(localStorage.token);
+
+        try {
+            const res = await axios.get('/api/employee/getAllCustomers',{
+                headers: headers
+            })
+            console.log(res)
+            dispatch({
+                type: ALL_CUSTOMERS,
                 payload: res.data
             });
         } catch (err) {
@@ -108,7 +135,10 @@ const EmployeeState = props =>{
                 customers: state.customers,
                 searchCustomer,
                 createAccount,
-                empBuyStocks
+                empBuyStocks,
+                getAllCustomers,
+                loadingAllCustomers: state.loadingAllCustomers,
+                allCustomers: state.allCustomers
             }}
             >
             {props.children}

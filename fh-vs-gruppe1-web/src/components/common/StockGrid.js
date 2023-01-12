@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {styled} from "@mui/material/styles";
 import {
     Button, MenuItem, Select,
@@ -45,36 +45,35 @@ const DepotGridEmployee = (props) => {
     const { setAlert } = alertContext;
 
     const employeeContext = useContext(EmployeeContext);
-    const {empBuyStocks, loadingEmp} = employeeContext;
+    const {empBuyStocks, allCustomers, getAllCustomers, loadingAllCustomers, loadingEmp} = employeeContext;
+
+    useEffect(() => {getAllCustomers()
+    }, []);
 
     const [buyAmount, setBuyAmount] = useState(0);
     const [stock, setStock] = useState({ symbol: '', lastTradePrice: 0 });
-
 
     const handleBuyAmountChange = (event, stock) => {
         setStock(stock);
         const buyAmount = Number(event.target.value);
         setBuyAmount(buyAmount);
         const totalCost = calculateTotalCost(buyAmount, stock.lastTradePrice);
-        // Update stock with new totalCost
         stock.totalCost = totalCost;
     };
-
-
 
     const [customer, setCustomer] = useState('');
 
     const onSubmit = (e) => {
         e.preventDefault();
-        empBuyStocks({"symbol": stock.symbol, "amount": buyAmount, "userEmail": stock.lastTradePrice});
+        setStock(stock);
+        empBuyStocks({"symbol":stock.symbol, "amount":buyAmount, "userEmail":customer});
         setAlert('Data submitted', 'info')
     }
 
-    const names = ["customer1", "customer2", "customer3"];
-
     return (
-        <TableContainer component={Paper}>
-            <form onSubmit={onSubmit}>
+        (loadingAllCustomers)?<p>Loading</p>:
+        <form onSubmit={onSubmit}>
+            <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -98,7 +97,8 @@ const DepotGridEmployee = (props) => {
                                 <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
                                 <StyledTableCell align="right">
                                     <TextField
-                                        id="buy-amount"
+                                        id="buy_amount"
+                                        name="buy_amount"
                                         label="Buy Amount"
                                         value={stock.buyAmount}
                                         onChange={(event) => handleBuyAmountChange(event, stock)}
@@ -109,12 +109,12 @@ const DepotGridEmployee = (props) => {
                                 <StyledTableCell align="right">{stock.totalCost}</StyledTableCell>
                                 <StyledTableCell align="right">
                                     <Select value={customer} onChange={(event) => setCustomer(event.target.value)}>
-                                        {names.map((name) => (
+                                        {allCustomers.map((name) => (
                                             <MenuItem
-                                                key={name}
-                                                value={name}
+                                                key={name.email}
+                                                value={name.email}
                                             >
-                                                {name}</MenuItem>))}
+                                                {name.email}</MenuItem>))}
                                     </Select>
                                     <Button variant="contained" type="submit" color="primary">
                                         Buy
@@ -124,8 +124,8 @@ const DepotGridEmployee = (props) => {
                         ))}
                     </TableBody>
                 </Table>
-            </form>
-        </TableContainer>
+            </TableContainer>
+        </form>
     );
 };
 

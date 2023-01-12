@@ -81,8 +81,9 @@ const DepotGridEmployee = (props) => {
                             <StyledTableCell align="right">Symbol</StyledTableCell>
                             <StyledTableCell align="right">Available stocks</StyledTableCell>
                             <StyledTableCell align="right">Price per share</StyledTableCell>
-                            <StyledTableCell align="right">Buy Amount</StyledTableCell>
+                            <StyledTableCell align="center">Buy Amount</StyledTableCell>
                             <StyledTableCell align="right">Total Cost</StyledTableCell>
+                            <StyledTableCell align="right">Customer</StyledTableCell>
                             <StyledTableCell align="right">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -116,6 +117,8 @@ const DepotGridEmployee = (props) => {
                                             >
                                                 {name.email}</MenuItem>))}
                                     </Select>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
                                     <Button variant="contained" type="submit" color="primary">
                                         Buy
                                     </Button>

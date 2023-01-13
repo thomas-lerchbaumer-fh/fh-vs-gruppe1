@@ -17,7 +17,7 @@ import EmployeeContext from "../../context/employee/employeeContext";
 import StockContext from "../../context/stock/stockContext";
 import BuyStockForm from "./forms/BuyStockForm";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,
@@ -27,7 +27,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(({theme}) => ({
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
     },
@@ -38,25 +38,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-
 const DepotGridEmployee = (props) => {
     const alertContext = useContext(AlertContext);
-    const { setAlert } = alertContext;
+    const {setAlert} = alertContext;
 
     const employeeContext = useContext(EmployeeContext);
     const {empBuyStocks, allCustomers, getAllCustomers, loadingAllCustomers, loadingEmp} = employeeContext;
 
-    useEffect(() => {getAllCustomers()
+    useEffect(() => {
+        getAllCustomers()
     }, []);
 
-
-
-
-
     return (
-        (loadingAllCustomers)?<p>Loading</p>:
+        (loadingAllCustomers) ? <p>Loading</p> :
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <Table sx={{minWidth: 700}} aria-label="customized table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Company</StyledTableCell>

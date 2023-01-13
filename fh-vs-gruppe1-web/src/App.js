@@ -12,15 +12,17 @@ function App() {
     return (
         <div className="App">
             <AuthState>
+                <AlertState>
                 <EmployeeState>
                     <StockState>
-                        <AlertState>
+
                             <BrowserRouter>
                                 <Menu><AvailableRoutes></AvailableRoutes></Menu>
                             </BrowserRouter>
-                        </AlertState>
+
                     </StockState>
                 </EmployeeState>
+                </AlertState>
             </AuthState>
         </div>
     );

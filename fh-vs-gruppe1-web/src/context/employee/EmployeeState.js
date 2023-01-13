@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback, useContext, useReducer} from 'react';
 import axios from 'axios';
 import EmployeeContext from "./employeeContext";
 import employeeReducer from './employeeReducer';
@@ -9,16 +9,20 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     CLEAR_ERRORS,
-    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION, ALL_CUSTOMERS, SELL_STOCKS
+    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION, ALL_CUSTOMERS, SELL_STOCKS, SET_ALERT
 } from '../types';
+import AlertContext from "../alert/alertContext";
 
-const EmployeeState = props =>{
+const EmployeeState = props => {
+
+    const alertContext = useContext(AlertContext);
+    const {setAlert} = alertContext;
 
     const initialState = {
         loadingEmp: true,
-        customers:[],
-        allCustomers:[],
-        loadingAllCustomers:true,
+        customers: [],
+        allCustomers: [],
+        loadingAllCustomers: true,
         error: null,
     };
 
@@ -30,13 +34,14 @@ const EmployeeState = props =>{
         }
         dispatch({
             type: SET_LOADING,
-            payload:true
+            payload: true
         })
+
 
         setAuthToken(localStorage.token);
 
         try {
-            const res = await axios.post('/api/employee/searchUser',formData,{
+            const res = await axios.post('/api/employee/searchUser', formData, {
                 headers: headers
             })
 
@@ -45,6 +50,7 @@ const EmployeeState = props =>{
                 payload: res.data
             });
         } catch (err) {
+
             dispatch({type: AUTH_ERROR});
         }
     }, [dispatch]);
@@ -55,7 +61,7 @@ const EmployeeState = props =>{
         }
         dispatch({
             type: SET_LOADING,
-            payload:true
+            payload: true
         })
 
         setAuthToken(localStorage.token);
@@ -63,7 +69,7 @@ const EmployeeState = props =>{
         console.log(formData);
 
         try {
-            const res = await axios.post('/api/employee/createAccount',formData,{
+            const res = await axios.post('/api/employee/createAccount', formData, {
                 headers: headers
             })
 
@@ -82,15 +88,12 @@ const EmployeeState = props =>{
         }
         dispatch({
             type: SET_LOADING,
-            payload:true
+            payload: true
         })
-
         setAuthToken(localStorage.token);
 
-        console.log(formData);
-
         try {
-            const res = await axios.post('/api/employee/buyStock',formData,{
+            const res = await axios.post('/api/employee/buyStock', formData, {
                 headers: headers
             })
 
@@ -99,7 +102,8 @@ const EmployeeState = props =>{
                 payload: res.data
             });
         } catch (err) {
-            dispatch({type: AUTH_ERROR});
+            console.log(err);
+            setAlert(err.response.data.message, 'error')
         }
     }, [dispatch]);
 
@@ -109,13 +113,13 @@ const EmployeeState = props =>{
         }
         dispatch({
             type: SET_LOADING,
-            payload:true
+            payload: true
         })
 
         setAuthToken(localStorage.token);
 
         try {
-            const res = await axios.get('/api/employee/getAllCustomers',{
+            const res = await axios.get('/api/employee/getAllCustomers', {
                 headers: headers
             })
             console.log(res)
@@ -134,7 +138,7 @@ const EmployeeState = props =>{
         }
         dispatch({
             type: SET_LOADING,
-            payload:true
+            payload: true
         })
 
         setAuthToken(localStorage.token);
@@ -142,7 +146,7 @@ const EmployeeState = props =>{
         console.log(formData);
 
         try {
-            const res = await axios.post('/api/employee/sellStock',formData,{
+            const res = await axios.post('/api/employee/sellStock', formData, {
                 headers: headers
             })
 
@@ -155,7 +159,7 @@ const EmployeeState = props =>{
         }
     }, [dispatch]);
 
-    return(
+    return (
         <EmployeeContext.Provider
             value={{
                 loadingEmp: state.loadingEmp,
@@ -168,7 +172,7 @@ const EmployeeState = props =>{
                 allCustomers: state.allCustomers,
                 empSellStocks
             }}
-            >
+        >
             {props.children}
         </EmployeeContext.Provider>
     )

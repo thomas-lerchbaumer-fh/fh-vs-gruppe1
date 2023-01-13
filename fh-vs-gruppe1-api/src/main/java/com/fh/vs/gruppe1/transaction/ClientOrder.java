@@ -30,6 +30,11 @@ public class ClientOrder {
 
     @Getter
     @Setter
+    @Column(nullable = false)
+    private String companyName;
+
+    @Getter
+    @Setter
 
     @Column(name="t_amount")
     private int amount;

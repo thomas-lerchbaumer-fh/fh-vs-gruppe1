@@ -83,6 +83,7 @@ public class TestDataService implements ApplicationRunner {
 
         ClientOrder co = new ClientOrder();
         co.setSymbol("AAPL");
+        co.setCompanyName("Apple");
         co.setAmount(2);
         co.setDepot(customer.getDepot());
         co.setUnitPrice(12.33);

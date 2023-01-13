@@ -11,9 +11,7 @@ import com.fh.vs.gruppe1.account.service.CustomerService;
 import com.fh.vs.gruppe1.account.service.EmployeeService;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
-import com.fh.vs.gruppe1.dto.UserDto;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
-import com.fh.vs.gruppe1.transaction.ClientOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +39,6 @@ public class EmployeeController {
     @Autowired
     public CustomerRepository customerRepository;
 
-    @Autowired
-    public ClientOrderRepository clientOrderRepository;
 
     @Autowired
     public BankService bankService;

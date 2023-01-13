@@ -90,6 +90,7 @@ public class BankService {
         clientOrder.setAmount(amount);
         clientOrder.setDepot(customer.get().getDepot());
         clientOrder.setSymbol(symbol);
+        clientOrder.setCompanyName(stock.getCompanyName());
         clientOrder.setUnitPrice(stock.getLastTradePrice().doubleValue());
         clientOrderRepository.save(clientOrder);
         return customer.get();

@@ -97,10 +97,8 @@ const EmployeeState = props => {
                 headers: headers
             })
 
-            dispatch({
-                type: BUY_STOCKS,
-                payload: res.data
-            });
+
+            setAlert("Trade successfully","success");
         } catch (err) {
             console.log(err);
             setAlert(err.response.data.message, 'error')

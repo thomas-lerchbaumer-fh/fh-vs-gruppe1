@@ -1,5 +1,5 @@
 import {
-    ALL_CUSTOMERS,CLEAR_ERRORS, CUSTOMER_SEARCH_LOADED, ERR_NO_CUSTOMER_FOUND, SET_LOADING,
+    ALL_CUSTOMERS, BUY_STOCKS, CLEAR_ERRORS, CUSTOMER_SEARCH_LOADED, ERR_NO_CUSTOMER_FOUND, SET_LOADING,
 } from '../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -12,7 +12,12 @@ export default (state, action) => {
                 customers: action.payload,
             };
         case ERR_NO_CUSTOMER_FOUND:{
+        }
+        case BUY_STOCKS:{
 
+            return{
+                ...state,
+            }
         }
         case SET_LOADING:
         return {

@@ -7,6 +7,7 @@ import Menu from './components/navigation/Menu'
 import AvailableRoutes from "./components/routing/AvailableRoutes";
 import EmployeeState from "./context/employee/EmployeeState";
 import StockState from "./context/stock/StockState";
+import CustomerState from "./context/customer/CustomerState";
 
 function App() {
     return (
@@ -14,13 +15,13 @@ function App() {
             <AuthState>
                 <AlertState>
                 <EmployeeState>
+                    <CustomerState>
                     <StockState>
-
                             <BrowserRouter>
                                 <Menu><AvailableRoutes></AvailableRoutes></Menu>
                             </BrowserRouter>
-
                     </StockState>
+                    </CustomerState>
                 </EmployeeState>
                 </AlertState>
             </AuthState>

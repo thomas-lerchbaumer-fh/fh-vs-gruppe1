@@ -52,7 +52,7 @@ public class BankService {
         return currentPrice.doubleValue();
     }
 
-    public Customer buyStock(String symbol, Integer amount, String userEmail){
+    public ClientOrder buyStock(String symbol, Integer amount, String userEmail){
         Optional<Customer> customer = customerRepository.findByEmail(userEmail);
 
         if(customer.isEmpty()){
@@ -98,7 +98,9 @@ public class BankService {
         clientOrder.setCompanyName(stock.getCompanyName());
         clientOrder.setUnitPrice(stock.getLastTradePrice().doubleValue());
         clientOrderRepository.save(clientOrder);
-        return customer.get();
+        clientOrder.setCurrentPrice(stock.getLastTradePrice().doubleValue());
+
+        return clientOrder;
 
     }
 

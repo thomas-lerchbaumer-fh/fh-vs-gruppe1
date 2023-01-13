@@ -1,6 +1,7 @@
 package com.fh.vs.gruppe1.account.controller;
 
 
+import ch.qos.logback.core.net.server.Client;
 import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.Employee;
 import com.fh.vs.gruppe1.account.Person;
@@ -56,7 +57,6 @@ public class EmployeeController {
         customers.forEach(customer ->{
             List<ClientOrder> co = customer.getDepot().getTransactions();
             if(co != null){
-
                 co.forEach(order ->{
                     double currentSharePrice = bankService.getCurrentShareValue(order.getSymbol());
                     order.setCurrentPrice(currentSharePrice);
@@ -88,13 +88,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/buyStock")
-    public ResponseEntity<Customer> buyStock(@RequestBody Map<String,String> request){
+    public ResponseEntity<ClientOrder> buyStock(@RequestBody Map<String,String> request){
         String symbol = request.get("symbol");
         Integer amount = Integer.valueOf(request.get("amount"));
         String userEmail = request.get("userEmail");
 
-        Customer customer = bankService.buyStock(symbol,amount,userEmail);
-        return new ResponseEntity<>(customer,HttpStatus.OK);
+        ClientOrder clientOrder = bankService.buyStock(symbol,amount,userEmail);
+        return new ResponseEntity<>(clientOrder,HttpStatus.OK);
 
     }
 

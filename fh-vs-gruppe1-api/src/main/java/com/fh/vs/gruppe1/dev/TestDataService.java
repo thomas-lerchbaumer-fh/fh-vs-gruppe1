@@ -101,6 +101,21 @@ public class TestDataService implements ApplicationRunner {
         customer.setEmail("client@client.at");
         customerRepository.save(customer);
 
+        Customer c2 = new Customer();
+        c2.setPassword("c2");
+        c2.setSurname("Customer");
+        c2.setFirstName("Bernhard");
+        c2.setEmail("c2@c2.at");
+
+        Depot dep2 = new Depot();
+        String depName2 = c2.getFirstName() + " " + customer.getSurname() + " depot";
+        dep2.setName(depName2);
+        depotRepository.save(dep2);
+
+        c2.setDepot(dep2);
+        customerRepository.save(c2);
+
+
         FindStockQuotesByCompanyNameResponse res = tradingServiceClient.getStockQuotebyCompanyName("apple").getValue();
         log.info(res.getReturn().toString() + " MY RES ");
 

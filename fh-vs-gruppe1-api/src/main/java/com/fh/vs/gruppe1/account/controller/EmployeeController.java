@@ -43,10 +43,6 @@ public class EmployeeController {
     @Autowired
     public BankService bankService;
 
-
-
-
-
     @RequestMapping("/stuff/hello")
     public String person() {
         return "Hello World";

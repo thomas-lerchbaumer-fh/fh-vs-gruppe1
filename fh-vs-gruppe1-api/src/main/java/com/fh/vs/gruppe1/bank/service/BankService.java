@@ -59,7 +59,7 @@ public class BankService {
             log.error("Customer not found");
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    String.format("customer not found")
+                    String.format("No customer found")
             );
         }
         PublicStockQuote stock = tradingServiceClient.getStockQuotes(symbol).getValue().getReturn().get(0);;
@@ -76,10 +76,15 @@ public class BankService {
         Bank tmpBank = bank.get();
         Double orderVol = stock.getLastTradePrice().doubleValue() * amount;
 
-        if(orderVol > tmpBank.getTotalOrderVolume() || amount > stock.getFloatShares()){
+        if(orderVol > tmpBank.getTotalOrderVolume()){
             log.error("Bank vol not enough");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format("Bank volume not enough, or not enough shares available"));
+                    String.format("Bank volume is not high enough, or not enough shares available"));
+        }
+        if(amount > stock.getFloatShares()){
+            log.error("Not enough shares available");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    String.format("Not enough shares available"));
         }
         //buy share and persist order
         BuyResponse buy = tradingServiceClient.buyShares(symbol, amount).getValue();

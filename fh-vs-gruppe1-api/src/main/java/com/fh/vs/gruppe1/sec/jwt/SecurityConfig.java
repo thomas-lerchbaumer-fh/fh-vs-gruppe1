@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/login").permitAll()
                 .requestMatchers("/api/employee/**").hasAuthority("Employee")
                 .requestMatchers("/api/customer/**").hasAuthority("Customer")
+                .requestMatchers("/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint).and().sessionManagement()

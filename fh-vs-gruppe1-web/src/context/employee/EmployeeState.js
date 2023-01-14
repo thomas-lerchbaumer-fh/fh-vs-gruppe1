@@ -9,7 +9,15 @@ import {
     LOGIN_SUCCESS,
     LOGOUT,
     CLEAR_ERRORS,
-    LOGIN_FAIL, CUSTOMER_SEARCH_LOADED, SET_LOADING, BUY_STOCKS, ACCOUNT_CREATION, ALL_CUSTOMERS, SELL_STOCKS, SET_ALERT
+    LOGIN_FAIL,
+    CUSTOMER_SEARCH_LOADED,
+    SET_LOADING,
+    BUY_STOCKS,
+    ACCOUNT_CREATION,
+    ALL_CUSTOMERS,
+    SELL_STOCKS,
+    SET_ALERT,
+    GET_BANK_VOLUME
 } from '../types';
 import AlertContext from "../alert/alertContext";
 
@@ -23,6 +31,8 @@ const EmployeeState = props => {
         customers: [],
         allCustomers: [],
         loadingAllCustomers: true,
+        loadingBankVol: true,
+        bankVolume: 0,
         error: null,
     };
 
@@ -50,7 +60,8 @@ const EmployeeState = props => {
                 payload: res.data
             });
         } catch (err) {
-
+            setAlert(err.response.data.message, "error");
+            console.log(err)
             dispatch({type: AUTH_ERROR});
         }
     }, [dispatch]);
@@ -82,6 +93,25 @@ const EmployeeState = props => {
         }
     }, [dispatch]);
 
+
+    const getBankVolume = useCallback(async () => {
+        setAuthToken(localStorage.token);
+
+        try {
+            const res = await axios.get('/api/employee/getBankVolume');
+            console.log(res);
+            dispatch({
+                type: GET_BANK_VOLUME,
+                payload:res.data
+            })
+
+        } catch (e) {
+
+        }
+
+
+    },[])
+
     const empBuyStocks = useCallback(async (formData) => {
         const headers = {
             'Content-Type': 'application/json'
@@ -98,7 +128,7 @@ const EmployeeState = props => {
             })
 
 
-            setAlert("Trade successfully","success");
+            setAlert("Trade successfull","success");
         } catch (err) {
             console.log(err);
             setAlert(err.response.data.message, 'error')
@@ -168,7 +198,9 @@ const EmployeeState = props => {
                 getAllCustomers,
                 loadingAllCustomers: state.loadingAllCustomers,
                 allCustomers: state.allCustomers,
-                empSellStocks
+                empSellStocks,
+                bankVolume: state.bankVolume,
+                getBankVolume
             }}
         >
             {props.children}

@@ -11,6 +11,8 @@ import com.fh.vs.gruppe1.account.repository.EmployeeRepository;
 import com.fh.vs.gruppe1.account.service.AddressService;
 import com.fh.vs.gruppe1.account.service.CustomerService;
 import com.fh.vs.gruppe1.account.service.EmployeeService;
+import com.fh.vs.gruppe1.bank.service.Bank;
+import com.fh.vs.gruppe1.bank.service.BankRepository;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
@@ -52,6 +54,9 @@ public class EmployeeController {
     @Autowired
     public BankService bankService;
 
+    @Autowired
+    public BankRepository bankRepository;
+
     @RequestMapping("/stuff/hello")
     public String person() {
         return "Hello World";
@@ -61,6 +66,14 @@ public class EmployeeController {
     public ResponseEntity<List<SearchCustomerProjection>> searchUser(@CurrentSecurityContext(expression = "authentication.name")
                                                    @RequestBody Map<String,String> searchQuery) {
         List<SearchCustomerProjection> customers = customerRepository.findAllBySearchQuery(searchQuery.get("search"));
+        if(customers.isEmpty()){
+            log.error("no customer fond");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("No customer found")
+            );
+        }
+
 
         customers.forEach(customer ->{
             List<ClientOrder> co = customer.getDepot().getTransactions();
@@ -199,6 +212,23 @@ public class EmployeeController {
         List<AllCustomersProjection> customers = customerRepository.findAllProjectedBy();
 
        return new ResponseEntity<>(customers, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getBankVolume")
+    public ResponseEntity<Bank> getBankVolume(){
+        Optional<Bank> bank = bankRepository.findById(1l);
+
+        if(bank.isEmpty()){
+            log.error("Customer not found");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("No baml volume found")
+            );
+        }
+
+        return new ResponseEntity<>(bank.get(), HttpStatus.OK);
+
     }
 
     @PostMapping("/buyStock")

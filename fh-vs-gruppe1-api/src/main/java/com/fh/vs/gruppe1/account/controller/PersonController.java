@@ -3,6 +3,8 @@ package com.fh.vs.gruppe1.account.controller;
 
 import com.fh.vs.gruppe1.account.Person;
 import com.fh.vs.gruppe1.account.repository.PersonRepository;
+import com.fh.vs.gruppe1.bank.service.Bank;
+import com.fh.vs.gruppe1.bank.service.BankRepository;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.dto.UserDto;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.PublicStockQuote;
@@ -34,6 +36,9 @@ public class PersonController {
     @Autowired
     private BankService bankService;
 
+    @Autowired
+    private BankRepository bankRepository;
+
 
     @GetMapping("/loadUser")
     public ResponseEntity<UserDto> loadUser(@CurrentSecurityContext(expression = "authentication.name")
@@ -43,6 +48,8 @@ public class PersonController {
         return new ResponseEntity<>(user, HttpStatus.OK);
 
     }
+
+
 
     @PostMapping("/searchStock")
     public ResponseEntity<List<PublicStockQuote>> searchStock(@CurrentSecurityContext(expression = "authentication.name")

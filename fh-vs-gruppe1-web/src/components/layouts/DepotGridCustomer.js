@@ -16,6 +16,7 @@ import AlertContext from "../../context/alert/alertContext";
 import employeeContext from "../../context/employee/employeeContext";
 import EmployeeContext from "../../context/employee/employeeContext";
 import CustomerContext from "../../context/customer/customerContext";
+import Grid from "@mui/material/Unstable_Grid2";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -64,6 +65,30 @@ const DepotGridCustomer = props =>{
     const [sellAmount, setSellAmount] = useState(0);
     const [stock, setSellStock] = useState({ symbol: '', lastTradePrice: 0 });
 
+    const [groupedStocks, setGroupedStocks] = useState([]);
+
+    const groupStocks = () =>{
+        //const res = [rows.reduce((a,c) => (a[c.symbol]=(a[c.symbol]||[]).concat(c),a) ,{})];
+        const res = [];
+        const keys =[];
+        for(let i = 0; i < rows.length; i++  ){
+            const accessor = rows[i].symbol;
+            if(res[accessor]){
+                res[accessor].amount += rows[i].amount
+            }else{
+                res[accessor] = rows[i]
+                keys.push(rows[i].symbol);
+            }
+        }
+        const group = [];
+        keys.forEach(key => {
+            group.push(res[key]);
+        })
+
+        setGroupedStocks(group);
+    }
+
+
     const handleSellStock = (event, stock) => {
         setSellStock(stock);
         const sellAmount = Number(event.target.value);
@@ -77,6 +102,7 @@ const DepotGridCustomer = props =>{
     }
 
     return(
+        <>
         <form onSubmit={onSubmit}>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -117,6 +143,47 @@ const DepotGridCustomer = props =>{
                 </Table>
             </TableContainer>
         </form>
+    <Grid xs={12}>
+        {rows.length > 0 &&
+
+            <Button variant={"contained"} onClick={groupStocks} sx={{marginBottom:"2%"}}> Show Grouped Stocks </Button>
+
+        }
+        {groupedStocks.length > 0 &&
+
+            <TableContainer component={Paper} >
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="center">Company</StyledTableCell>
+                            <StyledTableCell align="center">Symbol</StyledTableCell>
+                            <StyledTableCell align="right">amount</StyledTableCell>
+                            <StyledTableCell align="right">Selling price per share</StyledTableCell>
+                            <StyledTableCell align="right">Total value</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {groupedStocks.map((row) => (
+                            <StyledTableRow key={row.name}>
+                                <StyledTableCell align="center">{row.companyName} </StyledTableCell>
+                                <StyledTableCell align="center">{row.symbol}</StyledTableCell>
+                                <StyledTableCell align="right">{row.amount}</StyledTableCell>
+                                <StyledTableCell align="right">{row.currentPrice}€</StyledTableCell>
+                                <StyledTableCell align="right">
+                                    {row.amount * row.currentPrice }€
+                                </StyledTableCell>
+
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+
+
+        }
+    </Grid>
+    </>
 
     )
 

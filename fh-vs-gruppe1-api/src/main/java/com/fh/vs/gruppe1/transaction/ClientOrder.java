@@ -21,6 +21,7 @@ public class ClientOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="t_nr")
+    @Getter
     private Long id;
 
     @Getter

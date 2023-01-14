@@ -23,7 +23,7 @@ const calculateTotalCost = (buyAmount, pricePerShare) => {
 };
 
 
-const BuyStockForm = props =>{
+const SellStockForm = props =>{
     const {stock, depot} = props;
 
     const employeeContext = useContext(EmployeeContext);
@@ -46,9 +46,13 @@ const BuyStockForm = props =>{
     const onSubmit = (e) => {
         e.preventDefault();
         setStockTmp(stock);
-        empSellStocks({"symbol":stock.symbol, "amount":sellAmount, "userEmail":depot[1]});
-        setAlert('Data submitted', 'info')
-        window.location.reload()
+        if(sellAmount > stock.amount){
+            setAlert('You can\'t sell more stocks than you own', 'info')
+        }else{
+            empSellStocks({"symbol":stock.symbol, "amount":sellAmount, "userEmail":depot[1]});
+            setAlert('Data submitted', 'info')
+            window.location.reload()
+        }
     }
 
     return(
@@ -61,7 +65,7 @@ const BuyStockForm = props =>{
                     value={stock.sellAmount}
                     onChange={(event) => handleSellAmountChange(event, stock)}
                     type="number"
-                    inputProps={{ min: "0", max: stock.amount}}
+                    inputProps={{ min: 1, max: stock.amount}}
                 />
             </StyledTableCell>
             <StyledTableCell align="right">{stock.totalCost}</StyledTableCell>
@@ -76,4 +80,4 @@ const BuyStockForm = props =>{
 
 }
 
-export default  BuyStockForm;
+export default SellStockForm;

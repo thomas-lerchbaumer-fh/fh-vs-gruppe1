@@ -30,7 +30,7 @@ const CreateAccount = (props) => {
         e.preventDefault();
         createAccount(customer);
         setAlert('Data submitted', 'info')
-        setCustomer({firstname:'',lastname:'',email:'',streetname:'',housenumber:'',postcode:'',city:''});
+        setCustomer({firstname:'',lastname:'',email:'',streetname:'',housenumber:'',postcode:'',city:'',password:''});
     }
 
     return (
@@ -116,7 +116,18 @@ const CreateAccount = (props) => {
                             value={customer.city}
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6}>
+                        <TextField
+                            required
+                            fullWidth
+                            type="password"
+                            label="Password"
+                            name="password"
+                            onChange={handleInputChange}
+                            value={customer.password}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
                         <RadioGroup defaultValue="customer" name="privilege" onChange={handleInputChange}>
                             <FormControlLabel value="customer" control={<Radio />} label="Customer" />
                             <FormControlLabel value="employee" control={<Radio />} label="Employee" />

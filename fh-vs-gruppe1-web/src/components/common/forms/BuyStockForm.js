@@ -36,6 +36,7 @@ const BuyStockForm = props =>{
     const [stockTmp, setStockTmp] = useState({ symbol: '', lastTradePrice: 0 });
 
     const handleBuyAmountChange = (event, stock) => {
+        console.log(stock);
         setStockTmp(stock);
         const buyAmount = Number(event.target.value);
         setBuyAmount(buyAmount);
@@ -46,8 +47,13 @@ const BuyStockForm = props =>{
     const onSubmit = (e) => {
         e.preventDefault();
         setStockTmp(stock);
-        empBuyStocks({"symbol":stock.symbol, "amount":buyAmount, "userEmail":customer});
-        setAlert('Data submitted', 'info')
+        if(buyAmount > stock.floatShares){
+            setAlert('You can\'t buy more stocks than available', 'info')
+        }else{
+            empBuyStocks({"symbol":stock.symbol, "amount":buyAmount, "userEmail":customer});
+            setAlert('Data submitted', 'info')
+            window.location.reload()
+        }
     }
 
     const [customer, setCustomer] = useState('');
@@ -63,7 +69,7 @@ const BuyStockForm = props =>{
                     value={stock.buyAmount}
                     onChange={(event) => handleBuyAmountChange(event, stock)}
                     type="number"
-                    inputProps={{ min: "0" }}
+                    inputProps={{ min: 1, max: stock.floatShares}}
                 />
             </StyledTableCell>
             <StyledTableCell align="right">{stock.totalCost}</StyledTableCell>

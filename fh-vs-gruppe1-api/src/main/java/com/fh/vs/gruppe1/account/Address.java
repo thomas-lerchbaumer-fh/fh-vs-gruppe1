@@ -1,6 +1,8 @@
 package com.fh.vs.gruppe1.account;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.HashSet;
@@ -17,19 +19,29 @@ public class Address {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
+    @Getter
+    @Setter
     @Column(name = "ad_id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name="ad_street")
+    @Getter
+    @Setter
     private String street;
 
     @Column(name="ad_housenumber")
+    @Getter
+    @Setter
     private String housenumber;
 
     @Column(name="ad_postcode")
+    @Getter
+    @Setter
     private String postcode;
 
     @Column(name="ad_city")
+    @Getter
+    @Setter
     private String city;
 
     @ManyToMany(cascade= {CascadeType.ALL})

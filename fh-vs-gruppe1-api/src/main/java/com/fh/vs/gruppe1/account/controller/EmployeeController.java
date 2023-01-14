@@ -1,31 +1,32 @@
 package com.fh.vs.gruppe1.account.controller;
 
 
-import ch.qos.logback.core.net.server.Client;
-import com.fh.vs.gruppe1.account.Customer;
+import com.fh.vs.gruppe1.account.Address;
 import com.fh.vs.gruppe1.account.Employee;
-import com.fh.vs.gruppe1.account.Person;
 import com.fh.vs.gruppe1.account.projection.AllCustomersProjection;
 import com.fh.vs.gruppe1.account.projection.SearchCustomerProjection;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
-import com.fh.vs.gruppe1.account.service.CustomerService;
+import com.fh.vs.gruppe1.account.repository.EmployeeRepository;
+import com.fh.vs.gruppe1.account.service.AddressService;
 import com.fh.vs.gruppe1.account.service.EmployeeService;
 import com.fh.vs.gruppe1.bank.service.BankService;
-import com.fh.vs.gruppe1.depot.Depot;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @RestController
@@ -36,10 +37,13 @@ import java.util.UUID;
 public class EmployeeController {
 
     private final EmployeeService eservice;
+    private final AddressService aservice;
 
     @Autowired
     public CustomerRepository customerRepository;
 
+    @Autowired
+    public EmployeeRepository employeeRepository;
 
     @Autowired
     public BankService bankService;
@@ -73,8 +77,75 @@ public class EmployeeController {
 
     }
 
-    @PostMapping("/createUser")
-    public ResponseEntity<Employee> createUser(@RequestBody Employee employeeInput) {
+    //setCustomer({firstname:'',lastname:'',email:'',streetname:'',housenumber:'',postcode:'',city:''});
+    @PostMapping("/createEmployee")
+    public ResponseEntity<Employee> createEmployee(@RequestBody String json) throws ParseException {
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+
+        String email = (String) jsonObject.get("email");
+
+        if(employeeRepository.findByEmail(email).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "customer already exists");
+        }
+
+        String firstname = (String) jsonObject.get("firstname");
+        String lastname = (String) jsonObject.get("lastname");
+        //------
+        String streetname = (String) jsonObject.get("streetname");
+        String housenumber = (String) jsonObject.get("housenumber");
+        String postcode = (String) jsonObject.get("postcode");
+        String city = (String) jsonObject.get("city");
+
+        /*
+        Map employeeInput = new HashMap();
+        employeeInput.put("email", email);
+        employeeInput.put("firstName", firstname);
+        employeeInput.put("surname", lastname);
+        employeeInput.put("createdAt", LocalDateTime.now());
+
+        Map addressInput = new HashMap();
+        addressInput.put("street", streetname);
+        addressInput.put("housenumber", housenumber);
+        addressInput.put("postcode", postcode);
+        addressInput.put("city", city);
+
+        String empjson = JSONValue.toJSONString(employeeInput);
+        String addjson = JSONValue.toJSONString(addressInput);
+         */
+
+        Employee empobj = new Employee();
+        empobj.setEmail(email);
+        empobj.setSurname(lastname);
+        empobj.setFirstName(firstname);
+        empobj.setCreatedAt(LocalDateTime.now());
+
+        Address addobj = new Address();
+        addobj.setCity(city);
+        addobj.setHousenumber(housenumber);
+        addobj.setStreet(streetname);
+        addobj.setPostcode(postcode);
+
+        Employee employee = eservice.saveEmployee(empobj);
+        Address address = aservice.saveAddress(addobj);
+
+        return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
+
+    }
+
+    /*
+        @PostMapping("/createEmployee")
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employeeInput) {
+
+        Employee employee = eservice.saveEmployee(employeeInput);
+        return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
+
+    }
+     */
+
+    @PostMapping("/createCustomer")
+    public ResponseEntity<Employee> createCustomer(@RequestBody Employee employeeInput) {
         Employee employee = eservice.saveEmployee(employeeInput);
 
         return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);

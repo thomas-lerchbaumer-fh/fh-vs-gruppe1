@@ -23,69 +23,55 @@ const calculateTotalCost = (buyAmount, pricePerShare) => {
 };
 
 
-const BuyStockForm = props =>{
-    const {stock, allCustomers} = props;
+const SellStockForm = props =>{
+    const {stock, depot} = props;
 
     const employeeContext = useContext(EmployeeContext);
-    const {empBuyStocks} = employeeContext;
+    const {empSellStocks} = employeeContext;
 
     const alertContext = useContext(AlertContext);
     const { setAlert } = alertContext;
 
-    const [buyAmount, setBuyAmount] = useState(0);
+    const [sellAmount, setSellAmount] = useState(0);
     const [stockTmp, setStockTmp] = useState({ symbol: '', lastTradePrice: 0 });
 
-    const handleBuyAmountChange = (event, stock) => {
-        console.log(stock);
+    const handleSellAmountChange = (event, stock) => {
         setStockTmp(stock);
-        const buyAmount = Number(event.target.value);
-        setBuyAmount(buyAmount);
-        const totalCost = calculateTotalCost(buyAmount, stock.lastTradePrice);
+        const sellAmount = Number(event.target.value);
+        setSellAmount(sellAmount);
+        const totalCost = calculateTotalCost(sellAmount, stock.currentPrice);
         stock.totalCost = totalCost;
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
         setStockTmp(stock);
-        if(buyAmount > stock.floatShares){
-            setAlert('You can\'t buy more stocks than available', 'info')
+        if(sellAmount > stock.amount){
+            setAlert('You can\'t sell more stocks than you own', 'info')
         }else{
-            empBuyStocks({"symbol":stock.symbol, "amount":buyAmount, "userEmail":customer});
+            empSellStocks({"symbol":stock.symbol, "amount":sellAmount, "userEmail":depot[1]});
             setAlert('Data submitted', 'info')
             window.location.reload()
         }
     }
 
-    const [customer, setCustomer] = useState('');
-
-
     return(
         <>
             <StyledTableCell align="right">
                 <TextField
-                    id="buy_amount"
-                    name="buy_amount"
-                    label="Buy Amount"
-                    value={stock.buyAmount}
-                    onChange={(event) => handleBuyAmountChange(event, stock)}
+                    id="sell_amount"
+                    name="sell_amount"
+                    label="Sell Amount"
+                    value={stock.sellAmount}
+                    onChange={(event) => handleSellAmountChange(event, stock)}
                     type="number"
-                    inputProps={{ min: 1, max: stock.floatShares}}
+                    inputProps={{ min: 1, max: stock.amount}}
                 />
             </StyledTableCell>
             <StyledTableCell align="right">{stock.totalCost}</StyledTableCell>
             <StyledTableCell align="right">
-                <Select value={customer} onChange={(event) => setCustomer(event.target.value)}>
-                    {allCustomers.map((name) => (
-                        <MenuItem
-                            key={name.email}
-                            value={name.email}
-                        >
-                            {name.email}</MenuItem>))}
-                </Select>
-            </StyledTableCell>
-            <StyledTableCell align="right">
                 <Button variant="contained" type="submit" color="primary" onClick={onSubmit}>
-                    Buy
+                    Sell
                 </Button>
             </StyledTableCell>
         </>
@@ -94,4 +80,4 @@ const BuyStockForm = props =>{
 
 }
 
-export default  BuyStockForm;
+export default SellStockForm;

@@ -17,6 +17,7 @@ import employeeContext from "../../context/employee/employeeContext";
 import EmployeeContext from "../../context/employee/employeeContext";
 import CustomerContext from "../../context/customer/customerContext";
 import Grid from "@mui/material/Unstable_Grid2";
+import SellStockForm from "../common/forms/SellStockForm";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -111,9 +112,11 @@ const DepotGridCustomer = props =>{
                             <StyledTableCell align="center">Company</StyledTableCell>
                             <StyledTableCell align="center">Symbol</StyledTableCell>
                             <StyledTableCell align="center">Order date</StyledTableCell>
-                            <StyledTableCell align="right">amount</StyledTableCell>
+                            <StyledTableCell align="right">Amount</StyledTableCell>
                             <StyledTableCell align="right">Buying price per share</StyledTableCell>
                             <StyledTableCell align="right">Selling price per share</StyledTableCell>
+                            <StyledTableCell align="center">Sell Amount</StyledTableCell>
+                            <StyledTableCell align="center">Total Selling Price</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -126,12 +129,7 @@ const DepotGridCustomer = props =>{
                                 <StyledTableCell align="right">{row.amount}</StyledTableCell>
                                 <StyledTableCell align="right">{row.unitPrice}€</StyledTableCell>
                                 <StyledTableCell align="right">{row.currentPrice}€</StyledTableCell>
-                                <StyledTableCell align="right">
-                                    <Button variant="contained" type="submit" color="primary" onClick={(e) => onSubmit(row, e)}>
-                                        Sell
-                                    </Button>
-                                </StyledTableCell>
-
+                                <SellStockForm stock={row} depot={props.depot}></SellStockForm>
                             </StyledTableRow>
                         ))}
                     </TableBody>
@@ -170,7 +168,7 @@ const DepotGridCustomer = props =>{
                                 <StyledTableCell align="right">{row.amount}</StyledTableCell>
                                 <StyledTableCell align="right">{row.currentPrice}€</StyledTableCell>
                                 <StyledTableCell align="right">
-                                    {row.amount * row.currentPrice }€
+                                    {(row.amount * row.currentPrice).toLocaleString() }€
                                 </StyledTableCell>
 
                             </StyledTableRow>

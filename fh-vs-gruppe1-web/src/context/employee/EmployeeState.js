@@ -46,8 +46,6 @@ const EmployeeState = props => {
             type: SET_LOADING,
             payload: true
         })
-
-
         setAuthToken(localStorage.token);
 
         try {
@@ -102,7 +100,7 @@ const EmployeeState = props => {
             console.log(res);
             dispatch({
                 type: GET_BANK_VOLUME,
-                payload:res.data
+                payload: res.data
             })
 
         } catch (e) {
@@ -110,7 +108,7 @@ const EmployeeState = props => {
         }
 
 
-    },[])
+    }, [])
 
     const empBuyStocks = useCallback(async (formData) => {
         const headers = {
@@ -128,7 +126,7 @@ const EmployeeState = props => {
             })
 
 
-            setAlert("Trade successfull","success");
+            setAlert("Trade successfull", "success");
         } catch (err) {
             console.log(err);
             setAlert(err.response.data.message, 'error')

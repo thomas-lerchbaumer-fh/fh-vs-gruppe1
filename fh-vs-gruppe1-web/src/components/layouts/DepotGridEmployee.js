@@ -40,10 +40,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(symbol, amount, unitPrice, date, currentPrice, companyName) {
+function createData(id, symbol, amount, unitPrice, date, currentPrice, companyName) {
     const tmpDate = new Date(date)
     const formattedDate = `${("0" + tmpDate.getDay()).slice(-2)}.${("0" + tmpDate.getMonth() +1).slice(-2)}.${tmpDate.getFullYear()} ${tmpDate.getHours()}:${tmpDate.getMinutes()}`
-    return { symbol, amount, unitPrice, formattedDate, currentPrice, companyName };
+    return {id, symbol, amount, unitPrice, formattedDate, currentPrice, companyName };
 }
 
 
@@ -53,7 +53,7 @@ const DepotGridEmployee = props =>{
 
     const rows = [];
     props.depot[0].transactions.forEach(item => {
-        rows.push(createData(item.symbol,item.amount,item.unitPrice,item.orderDate,item.currentPrice,item.companyName))
+        rows.push(createData(item.id, item.symbol,item.amount,item.unitPrice,item.orderDate,item.currentPrice,item.companyName))
     })
 
     const [groupedStocks, setGroupedStocks] = useState([]);

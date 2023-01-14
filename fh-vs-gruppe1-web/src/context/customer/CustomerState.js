@@ -90,7 +90,7 @@ const CustomerState = props => {
         console.log(formData);
 
         try {
-            const res = await axios.post('/api/employee/sellStock', formData, {
+            const res = await axios.post('/api/customer/sellStock', formData, {
                 headers: headers
             })
 

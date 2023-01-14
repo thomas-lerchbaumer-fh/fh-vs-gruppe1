@@ -13,11 +13,10 @@ import {
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import AlertContext from "../../context/alert/alertContext";
-import employeeContext from "../../context/employee/employeeContext";
-import EmployeeContext from "../../context/employee/employeeContext";
 import CustomerContext from "../../context/customer/customerContext";
 import Grid from "@mui/material/Unstable_Grid2";
 import SellStockForm from "../common/forms/SellStockForm";
+import SellStockFormCustomer from "../common/forms/SellStockFormCustomer";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -39,11 +38,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(symbol, amount, unitPrice, date, currentPrice, companyName) {
+function createData(id, symbol, amount, unitPrice, date, currentPrice, companyName) {
     const tmpDate = new Date(date)
     const formattedDate = `${("0" + tmpDate.getDay()).slice(-2)}.${("0" + tmpDate.getMonth() +1).slice(-2)}.${tmpDate.getFullYear()} ${tmpDate.getHours()}:${tmpDate.getMinutes()}`
     console.log(formattedDate);
-    return { symbol, amount, unitPrice, formattedDate, currentPrice, companyName };
+    return { id, symbol, amount, unitPrice, formattedDate, currentPrice, companyName };
 }
 
 
@@ -59,7 +58,7 @@ const DepotGridCustomer = props =>{
     console.log(props, 'test');
     props.depot[0].transactions.forEach(item => {
         console.log(item);
-        rows.push(createData(item.symbol,item.amount,item.unitPrice,item.orderDate,item.currentPrice,item.companyName))
+        rows.push(createData(item.id,item.symbol,item.amount,item.unitPrice,item.orderDate,item.currentPrice,item.companyName))
     })
 
 
@@ -129,7 +128,7 @@ const DepotGridCustomer = props =>{
                                 <StyledTableCell align="right">{row.amount}</StyledTableCell>
                                 <StyledTableCell align="right">{row.unitPrice.toFixed(2).toLocaleString()}€</StyledTableCell>
                                 <StyledTableCell align="right">{row.currentPrice.toFixed(2).toLocaleString()}€</StyledTableCell>
-                                <SellStockForm stock={row} depot={props.depot}></SellStockForm>
+                                <SellStockFormCustomer stock={row}></SellStockFormCustomer>
                             </StyledTableRow>
                         ))}
                     </TableBody>

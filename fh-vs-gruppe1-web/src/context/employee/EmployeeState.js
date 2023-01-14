@@ -52,7 +52,7 @@ const EmployeeState = props => {
             const res = await axios.post('/api/employee/searchUser', formData, {
                 headers: headers
             })
-
+            // console.log(res);
             dispatch({
                 type: CUSTOMER_SEARCH_LOADED,
                 payload: res.data

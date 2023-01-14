@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react'
 import {Button, MenuItem, Select, TableCell, tableCellClasses, TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
-import EmployeeContext from "../../../context/employee/employeeContext";
 import AlertContext from "../../../context/alert/alertContext";
+import CustomerContext from "../../../context/customer/customerContext";
 
 
 
@@ -23,11 +23,11 @@ const calculateTotalCost = (buyAmount, pricePerShare) => {
 };
 
 
-const SellStockForm = props =>{
-    const {stock, depot} = props;
+const SellStockFormCustomer = props =>{
+    const {stock} = props;
 
-    const employeeContext = useContext(EmployeeContext);
-    const {empSellStocks} = employeeContext;
+    const customerContext = useContext(CustomerContext);
+    const {customerSellStocks} = customerContext;
 
     const alertContext = useContext(AlertContext);
     const { setAlert } = alertContext;
@@ -49,8 +49,7 @@ const SellStockForm = props =>{
         if(sellAmount > stock.amount){
             setAlert('You can\'t sell more stocks than you own', 'info')
         }else{
-            console.log(stock)
-            empSellStocks({"id":stock.id, "symbol":stock.symbol, "amount":sellAmount, "userEmail":depot[1]});
+            customerSellStocks({"id":stock.id, "symbol":stock.symbol, "amount":sellAmount});
             setAlert('Data submitted', 'info')
             window.location.reload()
         }
@@ -63,7 +62,6 @@ const SellStockForm = props =>{
                     id="sell_amount"
                     name="sell_amount"
                     label="Sell Amount"
-                    fullWidth={true}
                     value={stock.sellAmount}
                     onChange={(event) => handleSellAmountChange(event, stock)}
                     type="number"
@@ -82,4 +80,4 @@ const SellStockForm = props =>{
 
 }
 
-export default SellStockForm;
+export default SellStockFormCustomer;

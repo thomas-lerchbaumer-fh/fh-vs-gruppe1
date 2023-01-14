@@ -17,6 +17,8 @@ import employeeContext from "../../context/employee/employeeContext";
 import EmployeeContext from "../../context/employee/employeeContext";
 import GridItem from "./GridItem";
 import Grid from "@mui/material/Unstable_Grid2";
+import BuyStockForm from "../common/forms/BuyStockForm";
+import SellStockForm from "../common/forms/SellStockForm";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -49,25 +51,12 @@ const DepotGridEmployee = props =>{
     const alertContext = useContext(AlertContext);
     const { setAlert } = alertContext;
 
-    const employeeContext = useContext(EmployeeContext);
-    const {empSellStocks, loadingEmp} = employeeContext;
-
-
     const rows = [];
     props.depot[0].transactions.forEach(item => {
         rows.push(createData(item.symbol,item.amount,item.unitPrice,item.orderDate,item.currentPrice,item.companyName))
     })
 
-    const [sellAmount, setSellAmount] = useState(0);
-    const [stock, setSellStock] = useState({ symbol: '', lastTradePrice: 0 });
-
     const [groupedStocks, setGroupedStocks] = useState([]);
-
-    const handleSellStock = (event, stock) => {
-        setSellStock(stock);
-        const sellAmount = Number(event.target.value);
-        setSellAmount(sellAmount);
-    };
 
     const groupStocks = () =>{
         //const res = [rows.reduce((a,c) => (a[c.symbol]=(a[c.symbol]||[]).concat(c),a) ,{})];
@@ -96,17 +85,9 @@ const DepotGridEmployee = props =>{
 
    // groupStocks();
 
-    const [customer, setCustomer] = useState('');
-
-    const onSubmit = (row, e) => {
-        e.preventDefault();
-        empSellStocks({"symbol":row.symbol, "amount":row.amount, "userEmail":props.depot[1]});
-        setAlert('Data submitted', 'info')
-    }
-
     return(
         <>
-        <form onSubmit={onSubmit}>
+
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
@@ -114,9 +95,11 @@ const DepotGridEmployee = props =>{
                         <StyledTableCell align="center">Company</StyledTableCell>
                         <StyledTableCell align="center">Symbol</StyledTableCell>
                         <StyledTableCell align="center">Order date</StyledTableCell>
-                        <StyledTableCell align="right">amount</StyledTableCell>
+                        <StyledTableCell align="right">Amount</StyledTableCell>
                         <StyledTableCell align="right">Buying price per share</StyledTableCell>
                         <StyledTableCell align="right">Selling price per share</StyledTableCell>
+                        <StyledTableCell align="center">Sell Amount</StyledTableCell>
+                        <StyledTableCell align="center">Total Selling Price</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -129,12 +112,7 @@ const DepotGridEmployee = props =>{
                             <StyledTableCell align="right">{row.amount}</StyledTableCell>
                             <StyledTableCell align="right">{row.unitPrice}€</StyledTableCell>
                             <StyledTableCell align="right">{row.currentPrice}€</StyledTableCell>
-                            <StyledTableCell align="right">
-                                <Button variant="contained" type="submit" color="primary" onClick={(e) => onSubmit(row, e)}>
-                                    Sell
-                                </Button>
-                            </StyledTableCell>
-
+                            <SellStockForm stock={row} depot={props.depot}></SellStockForm>
                         </StyledTableRow>
                     ))}
                 </TableBody>
@@ -145,7 +123,7 @@ const DepotGridEmployee = props =>{
                 </TableRow>
             </Table>
         </TableContainer>
-        </form>
+
         <Grid xs={12}>
             {rows.length > 0 &&
 

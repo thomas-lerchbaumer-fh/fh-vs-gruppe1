@@ -62,6 +62,7 @@ const SellStockForm = props =>{
                     id="sell_amount"
                     name="sell_amount"
                     label="Sell Amount"
+                    fullWidth={true}
                     value={stock.sellAmount}
                     onChange={(event) => handleSellAmountChange(event, stock)}
                     type="number"

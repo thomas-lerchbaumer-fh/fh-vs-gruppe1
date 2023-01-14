@@ -127,8 +127,8 @@ const DepotGridCustomer = props =>{
                                 <StyledTableCell align="center">{row.symbol}</StyledTableCell>
                                 <StyledTableCell align="center">{row.formattedDate}</StyledTableCell>
                                 <StyledTableCell align="right">{row.amount}</StyledTableCell>
-                                <StyledTableCell align="right">{row.unitPrice}€</StyledTableCell>
-                                <StyledTableCell align="right">{row.currentPrice}€</StyledTableCell>
+                                <StyledTableCell align="right">{row.unitPrice.toFixed(2).toLocaleString()}€</StyledTableCell>
+                                <StyledTableCell align="right">{row.currentPrice.toFixed(2).toLocaleString()}€</StyledTableCell>
                                 <SellStockForm stock={row} depot={props.depot}></SellStockForm>
                             </StyledTableRow>
                         ))}
@@ -165,10 +165,10 @@ const DepotGridCustomer = props =>{
                             <StyledTableRow key={row.name}>
                                 <StyledTableCell align="center">{row.companyName} </StyledTableCell>
                                 <StyledTableCell align="center">{row.symbol}</StyledTableCell>
-                                <StyledTableCell align="right">{row.amount}</StyledTableCell>
-                                <StyledTableCell align="right">{row.currentPrice}€</StyledTableCell>
+                                <StyledTableCell align="right">{row.amount.toLocaleString()}</StyledTableCell>
+                                <StyledTableCell align="right">{row.currentPrice.toFixed(2).toLocaleString()}€</StyledTableCell>
                                 <StyledTableCell align="right">
-                                    {(row.amount * row.currentPrice).toLocaleString() }€
+                                    {(row.amount * row.currentPrice).toFixed(2).toLocaleString() }€
                                 </StyledTableCell>
 
                             </StyledTableRow>

@@ -73,7 +73,7 @@ const DepotGridEmployee = (props) => {
                                 </StyledTableCell>
                                 <StyledTableCell align="right">{stock.symbol}</StyledTableCell>
                                 <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
-                                <StyledTableCell align="right">{stock.lastTradePrice}</StyledTableCell>
+                                <StyledTableCell align="right">{stock.lastTradePrice.toFixed(2)}</StyledTableCell>
                                 <BuyStockForm stock={stock} allCustomers={allCustomers}></BuyStockForm>
                             </StyledTableRow>
                         ))}

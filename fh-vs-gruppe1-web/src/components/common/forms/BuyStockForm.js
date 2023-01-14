@@ -67,6 +67,7 @@ const BuyStockForm = props =>{
                     name="buy_amount"
                     label="Buy Amount"
                     value={stock.buyAmount}
+                    fullWidth={true}
                     onChange={(event) => handleBuyAmountChange(event, stock)}
                     type="number"
                     inputProps={{ min: 1, max: stock.floatShares}}

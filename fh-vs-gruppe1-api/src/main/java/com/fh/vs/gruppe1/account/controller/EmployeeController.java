@@ -187,12 +187,12 @@ public class EmployeeController {
     }
      */
 
-    @PostMapping("/createCustomer")
-    public ResponseEntity<Employee> createCustomer(@RequestBody Employee employeeInput) {
-        Employee employee = eservice.saveEmployee(employeeInput);
-
-        return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
-    }
+//    @PostMapping("/createCustomer")
+//    public ResponseEntity<Employee> createCustomer(@RequestBody Employee employeeInput) {
+//        Employee employee = eservice.saveEmployee(employeeInput);
+//
+//        return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
+//    }
 
     @GetMapping("/getAllCustomers")
     public ResponseEntity<List<AllCustomersProjection>> getAllCustomers(){

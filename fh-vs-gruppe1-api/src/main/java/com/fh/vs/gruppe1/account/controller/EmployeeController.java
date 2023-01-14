@@ -2,14 +2,17 @@ package com.fh.vs.gruppe1.account.controller;
 
 
 import com.fh.vs.gruppe1.account.Address;
+import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.Employee;
 import com.fh.vs.gruppe1.account.projection.AllCustomersProjection;
 import com.fh.vs.gruppe1.account.projection.SearchCustomerProjection;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.account.repository.EmployeeRepository;
 import com.fh.vs.gruppe1.account.service.AddressService;
+import com.fh.vs.gruppe1.account.service.CustomerService;
 import com.fh.vs.gruppe1.account.service.EmployeeService;
 import com.fh.vs.gruppe1.bank.service.BankService;
+import com.fh.vs.gruppe1.depot.Depot;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +41,7 @@ public class EmployeeController {
 
     private final EmployeeService eservice;
     private final AddressService aservice;
+    private final CustomerService cservice;
 
     @Autowired
     public CustomerRepository customerRepository;
@@ -87,7 +91,7 @@ public class EmployeeController {
         String email = (String) jsonObject.get("email");
 
         if(employeeRepository.findByEmail(email).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "customer already exists");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "employee already exists");
         }
 
         String firstname = (String) jsonObject.get("firstname");
@@ -131,6 +135,45 @@ public class EmployeeController {
         Address address = aservice.saveAddress(addobj);
 
         return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
+
+    }
+
+    @PostMapping("/createCustomer")
+    public ResponseEntity<Customer> createCustomer(@RequestBody String json) throws ParseException {
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+
+        String email = (String) jsonObject.get("email");
+
+        if(customerRepository.findByEmail(email).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "customer already exists");
+        }
+
+        String firstname = (String) jsonObject.get("firstname");
+        String lastname = (String) jsonObject.get("lastname");
+        //------
+        String streetname = (String) jsonObject.get("streetname");
+        String housenumber = (String) jsonObject.get("housenumber");
+        String postcode = (String) jsonObject.get("postcode");
+        String city = (String) jsonObject.get("city");
+
+        Customer custobj = new Customer(new Depot());
+        custobj.setEmail(email);
+        custobj.setSurname(lastname);
+        custobj.setFirstName(firstname);
+        custobj.setCreatedAt(LocalDateTime.now());
+
+        Address addobj = new Address();
+        addobj.setCity(city);
+        addobj.setHousenumber(housenumber);
+        addobj.setStreet(streetname);
+        addobj.setPostcode(postcode);
+
+        Customer customer = cservice.saveCustomer(custobj);
+        Address address = aservice.saveAddress(addobj);
+
+        return customer == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(customer);
 
     }
 

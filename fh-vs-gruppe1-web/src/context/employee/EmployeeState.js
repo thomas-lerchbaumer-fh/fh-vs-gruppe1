@@ -76,18 +76,33 @@ const EmployeeState = props => {
         setAuthToken(localStorage.token);
 
         console.log(formData);
+        if (formData['privilege'] === 'customer'){
+            try {
+                const res = await axios.post('/api/employee/createCustomer', formData, {
+                    headers: headers
+                })
 
-        try {
-            const res = await axios.post('/api/employee/createAccount', formData, {
-                headers: headers
-            })
+                dispatch({
+                    type: ACCOUNT_CREATION,
+                    payload: res.data
+                });
+            } catch (err) {
+                dispatch({type: AUTH_ERROR});
+            }
+        }
+        else{
+            try {
+                const res = await axios.post('/api/employee/createEmployee', formData, {
+                    headers: headers
+                })
 
-            dispatch({
-                type: ACCOUNT_CREATION,
-                payload: res.data
-            });
-        } catch (err) {
-            dispatch({type: AUTH_ERROR});
+                dispatch({
+                    type: ACCOUNT_CREATION,
+                    payload: res.data
+                });
+            } catch (err) {
+                dispatch({type: AUTH_ERROR});
+            }
         }
     }, [dispatch]);
 

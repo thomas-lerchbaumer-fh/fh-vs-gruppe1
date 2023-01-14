@@ -48,6 +48,7 @@ const BuyStockForm = props =>{
         setStockTmp(stock);
         empSellStocks({"symbol":stock.symbol, "amount":sellAmount, "userEmail":depot[1]});
         setAlert('Data submitted', 'info')
+        window.location.reload()
     }
 
     return(

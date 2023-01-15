@@ -173,7 +173,7 @@ public class EmployeeController {
         String postcode = (String) jsonObject.get("postcode");
         String city = (String) jsonObject.get("city");
 
-        Customer custobj = new Customer(new Depot());
+        Customer custobj = new Customer();
         custobj.setEmail(email);
         custobj.setSurname(lastname);
         custobj.setFirstName(firstname);
@@ -193,9 +193,12 @@ public class EmployeeController {
 
         Address address = aservice.saveAddress(addobj);
 
+        /*
         Depot depot = new Depot();
         depot.setCustomer(cservice.findCustomer(customer));
         Depot dobj = dservice.saveDepot(depot);
+
+         */
 
         return customer == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(customer);
 

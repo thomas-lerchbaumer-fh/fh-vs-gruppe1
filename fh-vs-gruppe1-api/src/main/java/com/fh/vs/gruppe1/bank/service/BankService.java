@@ -124,11 +124,11 @@ public class BankService {
             );
         }
 
-       /* Bank tmpBank = bank.get();
+        Bank tmpBank = bank.get();
         Double orderVol = stock.getLastTradePrice().doubleValue() * amount;
         tmpBank.setTotalOrderVolume(tmpBank.getTotalOrderVolume() + orderVol);
         bankRepository.save(tmpBank);
-*/
+
         SellResponse sell = tradingServiceClient.sellShares(symbol, amount).getValue();
         return true;
 

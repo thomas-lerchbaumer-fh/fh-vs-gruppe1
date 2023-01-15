@@ -4,11 +4,13 @@ import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.external.tradingservice.TradingServiceClient;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.BuyResponse;
+import com.fh.vs.gruppe1.external.tradingservice.tmp.SellResponse;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.FindStockQuotesByCompanyNameResponse;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.GetStockQuotesResponse;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.PublicStockQuote;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import com.fh.vs.gruppe1.transaction.ClientOrderRepository;
+import com.fh.vs.gruppe1.transaction.ClientOrderService;
 import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,9 @@ public class BankService {
     @Autowired
     ClientOrderRepository clientOrderRepository;
 
+    @Autowired
+    ClientOrderService coservice;
+
     public List<PublicStockQuote> getStocksByNameOrSymbol(String search){
 
         FindStockQuotesByCompanyNameResponse resName = tradingServiceClient.getStockQuotebyCompanyName(search).getValue();
@@ -50,6 +55,83 @@ public class BankService {
         GetStockQuotesResponse currentStockQuote = tradingServiceClient.getStockQuotes(symbol).getValue();
         BigDecimal currentPrice = currentStockQuote.getReturn().get(0).getLastTradePrice();
         return currentPrice.doubleValue();
+    }
+
+    public boolean  sellStock(String symbol, Integer amount, String userEmail, Long transaction){
+        Optional<Customer> customer = customerRepository.findByEmail(userEmail);
+        //check if  customer exists
+        if(customer.isEmpty()){
+            log.error("Customer not found");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("No customer found")
+            );
+        }
+        System.out.println(customer.get());
+        System.out.println(customer.get().getDepot());
+        System.out.println(customer.get().getDepot().getId());
+        System.out.println(customer.get().getDepot().getTransactions());
+        //Check if the customer has enough shares to sell
+        List<ClientOrder> sharesOwned = customer.get().getDepot().getTransactions();
+       //check if shares exists
+        if(sharesOwned.isEmpty()){
+            log.error("Shares not found");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("Shares not found")
+            );
+        }
+
+
+        //check if transaction id belongs to customer Depot
+        Customer custobj = customerRepository.findByEmail(userEmail).get();
+        List<ClientOrder> coobj = custobj.getDepot().getTransactions();
+        ClientOrder ourco = null;
+        boolean coexists = false;
+        for(ClientOrder co : coobj){
+
+            if (co.getId() == transaction){
+                coexists = true;
+                ourco = co;
+            }
+        }
+        if (!coexists){
+            log.error("permission denied for transaction");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("permission denied for transaction")
+            );
+        }
+
+        if (amount<ourco.getAmount()){
+            coservice.updateClientOrder(ourco.getId(), ourco.getAmount()-amount);
+        }
+        if (amount==ourco.getAmount()){
+            coservice.deleteClientOrder(ourco.getId());
+        }
+
+
+
+        //get stock from trading service (froihofer)
+        PublicStockQuote stock = tradingServiceClient.getStockQuotes(symbol).getValue().getReturn().get(0);
+        //check if Bank exists
+        Optional<Bank> bank = bankRepository.findById(1l);
+        if(bank.isEmpty()){
+            log.error("Bank not found");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("Bank not found, should not happen")
+            );
+        }
+
+       /* Bank tmpBank = bank.get();
+        Double orderVol = stock.getLastTradePrice().doubleValue() * amount;
+        tmpBank.setTotalOrderVolume(tmpBank.getTotalOrderVolume() + orderVol);
+        bankRepository.save(tmpBank);
+*/
+        SellResponse sell = tradingServiceClient.sellShares(symbol, amount).getValue();
+        return true;
+
     }
 
     public ClientOrder buyStock(String symbol, Integer amount, String userEmail){

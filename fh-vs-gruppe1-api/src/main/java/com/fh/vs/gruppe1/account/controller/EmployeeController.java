@@ -251,5 +251,16 @@ public class EmployeeController {
         return new ResponseEntity<>(clientOrder,HttpStatus.OK);
 
     }
+    @PostMapping("/sellStock")
+    public ResponseEntity<Boolean> sellStock(@RequestBody Map<String,String> request){
+        String symbol = request.get("symbol");
+        Integer amount = Integer.valueOf(request.get("amount"));
+        String userEmail = request.get("userEmail");
+        Long transaction = Long.valueOf(request.get("id"));
+
+        boolean clientOrder = bankService.sellStock(symbol,amount,userEmail, transaction);
+        return new ResponseEntity<>(clientOrder,HttpStatus.OK);
+
+    }
 
 }

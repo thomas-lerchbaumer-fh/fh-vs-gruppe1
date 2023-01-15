@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 import javax.xml.bind.JAXBElement;
+import java.net.HttpCookie;
 
 
 //URL spring.io/guides/gs/consuming-web-service
@@ -50,4 +51,14 @@ public class TradingServiceClient extends WebServiceGatewaySupport {
     }
 
 
+    public JAXBElement<SellResponse> sellShares(String symbol, int shares) {
+        ObjectFactory objectFactory = new ObjectFactory();
+        Sell req = objectFactory.createSell();
+        req.setShares(shares);
+        req.setSymbol(symbol);
+
+        JAXBElement<Sell> jaxbElement = objectFactory.createSell(req);
+
+        return (JAXBElement<SellResponse>) getWebServiceTemplate().marshalSendAndReceive(jaxbElement);
+    }
 }

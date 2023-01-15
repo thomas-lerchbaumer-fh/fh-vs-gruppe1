@@ -64,7 +64,24 @@ public class CustomerController {
         ClientOrder response = bankService.buyStock(symbol, amount, userEmail);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @PostMapping("/sellStock")
+    public ResponseEntity<Boolean> sellStock(Authentication authentication, @RequestBody Map<String, String> request) {
+        String symbol = request.get("symbol");
+        Integer amount = Integer.valueOf(request.get("amount"));
+        Optional<Customer> customer = customerRepository.findByEmail(authentication.getName());
+        Long transaction = Long.valueOf(request.get("id"));
+        log.info(authentication.getName() + " customer request");
 
+        if (customer.isEmpty()) {
+            log.warn("customer cannot be found via active session token, access denied");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "your message string");
+        }
+        String userEmail = customer.get().getEmail();
+        log.info(userEmail + " my user email @customer login");
+
+        boolean response = bankService.sellStock(symbol, amount, userEmail, transaction);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @GetMapping("/getCustomer")
     public ResponseEntity<Customer> getDepot(Authentication authentication){
         Optional<Customer> customerSearch = customerRepository.findByEmail(authentication.getName());

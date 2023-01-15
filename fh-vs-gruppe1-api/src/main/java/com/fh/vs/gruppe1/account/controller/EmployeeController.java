@@ -15,6 +15,7 @@ import com.fh.vs.gruppe1.bank.service.Bank;
 import com.fh.vs.gruppe1.bank.service.BankRepository;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
+import com.fh.vs.gruppe1.depot.DepotService;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ import java.util.*;
 public class EmployeeController {
 
     private final EmployeeService eservice;
+    private final DepotService dservice;
     private final AddressService aservice;
     private final CustomerService cservice;
 
@@ -106,7 +108,7 @@ public class EmployeeController {
         if(employeeRepository.findByEmail(email).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "employee already exists");
         }
-
+        String password = (String) jsonObject.get("password");
         String firstname = (String) jsonObject.get("firstname");
         String lastname = (String) jsonObject.get("lastname");
         //------
@@ -137,6 +139,7 @@ public class EmployeeController {
         empobj.setSurname(lastname);
         empobj.setFirstName(firstname);
         empobj.setCreatedAt(LocalDateTime.now());
+        empobj.setPassword(password);
 
         Address addobj = new Address();
         addobj.setCity(city);
@@ -167,7 +170,7 @@ public class EmployeeController {
         if(customerRepository.findByEmail(email).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "customer already exists");
         }
-
+        String password = (String) jsonObject.get("password");
         String firstname = (String) jsonObject.get("firstname");
         String lastname = (String) jsonObject.get("lastname");
         //------
@@ -176,11 +179,19 @@ public class EmployeeController {
         String postcode = (String) jsonObject.get("postcode");
         String city = (String) jsonObject.get("city");
 
+        Depot depobj = new Depot();
+        depobj.setName("customerDepot");
+        depobj.setCurrentTotalDepotValue(0);
+        dservice.saveDepot(depobj);
+
+
         Customer custobj = new Customer(new Depot());
         custobj.setEmail(email);
         custobj.setSurname(lastname);
         custobj.setFirstName(firstname);
         custobj.setCreatedAt(LocalDateTime.now());
+        custobj.setPassword(password);
+        custobj.setDepot(depobj);
 
         Address addobj = new Address();
         addobj.setCity(city);

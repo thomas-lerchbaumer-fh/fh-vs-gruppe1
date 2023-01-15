@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -133,13 +134,13 @@ public class EmployeeController {
         String empjson = JSONValue.toJSONString(employeeInput);
         String addjson = JSONValue.toJSONString(addressInput);
         */
-
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Employee empobj = new Employee();
         empobj.setEmail(email);
         empobj.setSurname(lastname);
         empobj.setFirstName(firstname);
         empobj.setCreatedAt(LocalDateTime.now());
-        empobj.setPassword(password);
+        empobj.setPassword((bCryptPasswordEncoder.encode(password)));
 
         Address addobj = new Address();
         addobj.setCity(city);
@@ -184,13 +185,13 @@ public class EmployeeController {
         depobj.setCurrentTotalDepotValue(0);
         dservice.saveDepot(depobj);
 
-
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Customer custobj = new Customer(new Depot());
         custobj.setEmail(email);
         custobj.setSurname(lastname);
         custobj.setFirstName(firstname);
         custobj.setCreatedAt(LocalDateTime.now());
-        custobj.setPassword(password);
+        custobj.setPassword((bCryptPasswordEncoder.encode(password)));
         custobj.setDepot(depobj);
 
         Address addobj = new Address();

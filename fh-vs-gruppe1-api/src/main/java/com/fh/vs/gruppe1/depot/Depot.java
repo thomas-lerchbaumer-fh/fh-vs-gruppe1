@@ -42,7 +42,7 @@ public class Depot {
 
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "depot", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "depot", orphanRemoval = true, fetch = FetchType.LAZY)
     @Getter
     @Setter
     private List<ClientOrder> transactions;

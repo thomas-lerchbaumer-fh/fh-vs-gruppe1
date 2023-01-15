@@ -2,6 +2,7 @@ package com.fh.vs.gruppe1.bank.service;
 
 import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
+import com.fh.vs.gruppe1.depot.DepotRepository;
 import com.fh.vs.gruppe1.external.tradingservice.TradingServiceClient;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.BuyResponse;
 import com.fh.vs.gruppe1.external.tradingservice.tmp.SellResponse;
@@ -44,6 +45,9 @@ public class BankService {
 
     @Autowired
     ClientOrderService coservice;
+
+    @Autowired
+    DepotRepository depotRepository;
 
     public List<PublicStockQuote> getStocksByNameOrSymbol(String search){
 
@@ -93,6 +97,7 @@ public class BankService {
             if (co.getId() == transaction){
                 coexists = true;
                 ourco = co;
+
             }
         }
         if (!coexists){
@@ -104,10 +109,18 @@ public class BankService {
         }
 
         if (amount<ourco.getAmount()){
-            coservice.updateClientOrder(ourco.getId(), ourco.getAmount()-amount);
+            ourco.setAmount(ourco.getAmount()-amount);
+            clientOrderRepository.save(ourco);
+
+            //coservice.updateClientOrder(ourco.getId(), ourco.getAmount()-amount);
         }
         if (amount==ourco.getAmount()){
-            coservice.deleteClientOrder(ourco.getId());
+
+            clientOrderRepository.deleteById(ourco.getId());
+            //customer.get().getDepot().setTransactions(coobj);
+          // depotRepository.save(customer.get().getDepot());
+
+            //coservice.deleteClientOrder(ourco.getId());
         }
 
 

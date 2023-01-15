@@ -16,18 +16,8 @@ import java.util.UUID;
 @Table(name="Customer")
 public class Customer extends Person {
 
-    @Getter
-    @Setter
-    @OneToOne
-    private Depot depot;
-
-    public Customer(String id, String email, LocalDateTime createdAt, @NotNull String password, String surname, String firstName, Depot depot) {
+    public Customer(String id, String email, LocalDateTime createdAt, @NotNull String password, String surname, String firstName) {
         super(id, email, createdAt, password, surname, firstName);
-        this.depot = depot;
-    }
-
-    public Customer(Depot depot) {
-        this.depot = depot;
     }
 
     public Customer() {    }

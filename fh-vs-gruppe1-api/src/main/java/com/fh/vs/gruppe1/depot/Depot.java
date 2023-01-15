@@ -34,11 +34,10 @@ public class Depot {
     @Column(name = "d_creationdate", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
-
-//    @OneToOne
-//    @Getter
-//    @Setter
-//    private Customer customer;
+    @OneToOne
+    @Getter
+    @Setter
+    private Customer customer;
 
 
     @JsonManagedReference

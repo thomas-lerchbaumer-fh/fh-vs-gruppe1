@@ -79,17 +79,15 @@ public class CustomerController {
 
         }
         Customer customer = customerSearch.get();
+        List<ClientOrder> co = customer.getDepot().getTransactions();
 
-        Depot depot = dservice.findDepotByCustomer(customer);
-
-        List<ClientOrder> co = depot.getTransactions();
         if(co != null){
             co.forEach(order ->{
                 double currentSharePrice = bankService.getCurrentShareValue(order.getSymbol());
                 order.setCurrentPrice(currentSharePrice);
             });
-            depot.setCurrentTotalDepotValue(
-                    depot.getTransactions().stream().mapToDouble(item -> item.getCurrentPrice() * item.getAmount()).sum()
+            customer.getDepot().setCurrentTotalDepotValue(
+                    customer.getDepot().getTransactions().stream().mapToDouble(item -> item.getCurrentPrice() * item.getAmount()).sum()
             );
         }
         return new ResponseEntity<>(customer, HttpStatus.OK);

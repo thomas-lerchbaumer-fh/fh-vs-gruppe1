@@ -45,8 +45,8 @@ public class EmployeeController {
     private final EmployeeService eservice;
     private final AddressService aservice;
     private final CustomerService cservice;
-    private final DepotService dservice;
 
+    private final DepotService dservice;
     @Autowired
     public CustomerRepository customerRepository;
 

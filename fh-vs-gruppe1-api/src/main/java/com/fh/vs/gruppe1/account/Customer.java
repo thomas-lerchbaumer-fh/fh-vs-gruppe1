@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.ws.BindingType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,6 +16,14 @@ import java.util.UUID;
 @Entity
 @Table(name="Customer")
 public class Customer extends Person {
+
+    /*
+    @Getter
+    @Setter
+    @OneToOne
+    private Depot depot;
+
+     */
 
     public Customer(String id, String email, LocalDateTime createdAt, @NotNull String password, String surname, String firstName) {
         super(id, email, createdAt, password, surname, firstName);

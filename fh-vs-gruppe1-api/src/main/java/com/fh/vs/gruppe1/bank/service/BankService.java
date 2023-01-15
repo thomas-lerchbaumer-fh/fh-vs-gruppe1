@@ -97,7 +97,6 @@ public class BankService {
             if (co.getId() == transaction){
                 coexists = true;
                 ourco = co;
-
             }
         }
         if (!coexists){
@@ -109,18 +108,13 @@ public class BankService {
         }
 
         if (amount<ourco.getAmount()){
+
             ourco.setAmount(ourco.getAmount()-amount);
             clientOrderRepository.save(ourco);
 
-            //coservice.updateClientOrder(ourco.getId(), ourco.getAmount()-amount);
         }
-        if (amount==ourco.getAmount()){
-
+        else if (amount==ourco.getAmount()){
             clientOrderRepository.deleteById(ourco.getId());
-            //customer.get().getDepot().setTransactions(coobj);
-          // depotRepository.save(customer.get().getDepot());
-
-            //coservice.deleteClientOrder(ourco.getId());
         }
 
 

@@ -40,6 +40,11 @@ public class Depot {
 //    @Setter
 //    private Customer customer;
 
+    @Getter
+    @Setter
+    @OneToOne
+    @JoinColumn(name="p_id")
+    private Customer customer;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "depot", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

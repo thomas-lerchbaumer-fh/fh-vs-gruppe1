@@ -15,6 +15,8 @@ import com.fh.vs.gruppe1.bank.service.Bank;
 import com.fh.vs.gruppe1.bank.service.BankRepository;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
+import com.fh.vs.gruppe1.depot.DepotRepository;
+import com.fh.vs.gruppe1.depot.DepotService;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,11 +47,16 @@ public class EmployeeController {
     private final AddressService aservice;
     private final CustomerService cservice;
 
+    private final DepotService dservice;
+
     @Autowired
     public CustomerRepository customerRepository;
 
     @Autowired
     public EmployeeRepository employeeRepository;
+
+    @Autowired
+    public DepotRepository depotRepository;
 
     @Autowired
     public BankService bankService;
@@ -176,7 +183,7 @@ public class EmployeeController {
         String postcode = (String) jsonObject.get("postcode");
         String city = (String) jsonObject.get("city");
 
-        Customer custobj = new Customer(new Depot());
+        Customer custobj = new Customer();
         custobj.setEmail(email);
         custobj.setSurname(lastname);
         custobj.setFirstName(firstname);
@@ -193,6 +200,11 @@ public class EmployeeController {
         addobj.setPerson(
                 new HashSet<>(Arrays.asList(cservice.findCustomer(customer)))
         );
+
+        Depot depot = new Depot();
+        depot.setCustomer(cservice.findCustomer(customer));
+
+        dservice.saveDepot(depot);
 
         Address address = aservice.saveAddress(addobj);
 

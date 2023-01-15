@@ -15,6 +15,7 @@ import com.fh.vs.gruppe1.bank.service.Bank;
 import com.fh.vs.gruppe1.bank.service.BankRepository;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
+import com.fh.vs.gruppe1.depot.DepotService;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,7 @@ public class EmployeeController {
     private final EmployeeService eservice;
     private final AddressService aservice;
     private final CustomerService cservice;
+    private final DepotService dservice;
 
     @Autowired
     public CustomerRepository customerRepository;
@@ -184,7 +186,16 @@ public class EmployeeController {
         addobj.setPostcode(postcode);
 
         Customer customer = cservice.saveCustomer(custobj);
+
+        addobj.setPerson(
+                new HashSet<>(Arrays.asList(cservice.findCustomer(customer)))
+        );
+
         Address address = aservice.saveAddress(addobj);
+
+        Depot depot = new Depot();
+        depot.setCustomer(cservice.findCustomer(customer));
+        Depot dobj = dservice.saveDepot(depot);
 
         return customer == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(customer);
 

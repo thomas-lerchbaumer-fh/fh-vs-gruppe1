@@ -50,8 +50,6 @@ public class Address {
             joinColumns={@JoinColumn(name="ad_id")},
             inverseJoinColumns = { @JoinColumn(name="p_id")}
     )
-    @Getter
-    @Setter
     Set<Person> person = new HashSet<>();
 
 }

@@ -130,7 +130,7 @@ public class EmployeeController {
 
         String empjson = JSONValue.toJSONString(employeeInput);
         String addjson = JSONValue.toJSONString(addressInput);
-        */
+         */
 
         Employee empobj = new Employee();
         empobj.setEmail(email);
@@ -145,11 +145,6 @@ public class EmployeeController {
         addobj.setPostcode(postcode);
 
         Employee employee = eservice.saveEmployee(empobj);
-
-        addobj.setPerson(
-         new HashSet<>(Arrays.asList(eservice.findEmployee(employee)))
-        );
-
         Address address = aservice.saveAddress(addobj);
 
         return employee == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(employee);
@@ -189,11 +184,6 @@ public class EmployeeController {
         addobj.setPostcode(postcode);
 
         Customer customer = cservice.saveCustomer(custobj);
-
-        addobj.setPerson(
-                new HashSet<>(Arrays.asList(cservice.findCustomer(customer)))
-        );
-
         Address address = aservice.saveAddress(addobj);
 
         return customer == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(customer);

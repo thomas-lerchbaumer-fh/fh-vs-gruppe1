@@ -18,7 +18,7 @@ public class Customer extends Person {
 
     @Getter
     @Setter
-    @OneToOne (mappedBy = "d_id")
+    //@OneToOne (mappedBy = "d_id")
     private Depot depot;
     public Customer(String id, String email, LocalDateTime createdAt, @NotNull String password, String surname, String firstName, Depot depot) {
         super(id, email, createdAt, password, surname, firstName);

@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerService {
 
-
+    @Autowired
     private final CustomerRepository repo;
 
     public Customer saveCustomer(Customer customer) {
@@ -28,4 +28,7 @@ public class CustomerService {
     }
 
 
+    public Customer findCustomer(Customer customer) {
+        return repo.findByEmail(customer.getEmail()).get();
+    }
 }

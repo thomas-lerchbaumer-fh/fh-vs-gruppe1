@@ -34,12 +34,13 @@ public class Depot {
     @Column(name = "d_creationdate", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
-
-//    @OneToOne
-//    @Getter
-//    @Setter
-//    private Customer customer;
-
+    /*
+    @Getter
+    @Setter
+    @OneToOne
+    @JoinColumn(name="p_id")
+    private Customer customer;
+*/
 
     @JsonManagedReference
     @OneToMany(mappedBy = "depot", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

@@ -44,6 +44,9 @@ public class Address {
     @Setter
     private String city;
 
+
+    @Getter
+    @Setter
     @ManyToMany(cascade= {CascadeType.ALL})
     @JoinTable(
             name="Person_has_Address",

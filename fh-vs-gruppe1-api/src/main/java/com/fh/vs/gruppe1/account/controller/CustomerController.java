@@ -5,6 +5,7 @@ import com.fh.vs.gruppe1.account.Customer;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.bank.service.BankService;
 import com.fh.vs.gruppe1.depot.Depot;
+import com.fh.vs.gruppe1.depot.DepotService;
 import com.fh.vs.gruppe1.transaction.ClientOrder;
 import com.fh.vs.gruppe1.transaction.ClientOrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,9 @@ public class CustomerController {
     @Autowired
     public BankService bankService;
 
+    @Autowired
+    private final DepotService dservice;
+
     @RequestMapping("/loadUser")
     public String person() {
         return "Hello World";
@@ -75,14 +79,17 @@ public class CustomerController {
 
         }
         Customer customer = customerSearch.get();
-        List<ClientOrder> co = customer.getDepot().getTransactions();
+
+        Depot depot = dservice.findDepotByCustomer(customer);
+
+        List<ClientOrder> co = depot.getTransactions();
         if(co != null){
             co.forEach(order ->{
                 double currentSharePrice = bankService.getCurrentShareValue(order.getSymbol());
                 order.setCurrentPrice(currentSharePrice);
             });
-            customer.getDepot().setCurrentTotalDepotValue(
-                    customer.getDepot().getTransactions().stream().mapToDouble(item -> item.getCurrentPrice() * item.getAmount()).sum()
+            depot.setCurrentTotalDepotValue(
+                    depot.getTransactions().stream().mapToDouble(item -> item.getCurrentPrice() * item.getAmount()).sum()
             );
         }
         return new ResponseEntity<>(customer, HttpStatus.OK);

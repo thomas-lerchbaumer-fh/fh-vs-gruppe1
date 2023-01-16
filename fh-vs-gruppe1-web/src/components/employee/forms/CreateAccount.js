@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 
 
 const CreateAccount = (props) => {
-    const [customer, setCustomer] = useState({});
+    const [customer, setCustomer] = useState({"privilege": "customer"});
 
     const alertContext = useContext(AlertContext);
     const {setAlert} = alertContext;

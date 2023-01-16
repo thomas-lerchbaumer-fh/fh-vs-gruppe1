@@ -51,7 +51,21 @@ public class BankService {
 
     public List<PublicStockQuote> getStocksByNameOrSymbol(String search){
 
+        GetStockQuotesResponse findSymbol = tradingServiceClient.getStockQuotes(search).getValue();
+
         FindStockQuotesByCompanyNameResponse resName = tradingServiceClient.getStockQuotebyCompanyName(search).getValue();
+
+        if(!findSymbol.getReturn().isEmpty() && !resName.getReturn().isEmpty()){
+            if(!resName.getReturn().stream().anyMatch(stock -> stock.getSymbol().equals(findSymbol.getReturn().get(0)))){
+                    resName.getReturn().add(findSymbol.getReturn().get(0));
+            }
+        }else if (!findSymbol.getReturn().isEmpty() && resName.getReturn().isEmpty()){
+            resName.getReturn().add(findSymbol.getReturn().get(0));
+        }
+        //boolean itemExists = lista.stream().anyMatch(c -> c.equals(conta5));
+
+        resName.getReturn().contains(findSymbol);
+
         return resName.getReturn();
     }
 

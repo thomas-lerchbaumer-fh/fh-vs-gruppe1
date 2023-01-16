@@ -8,6 +8,7 @@ import com.fh.vs.gruppe1.account.projection.AllCustomersProjection;
 import com.fh.vs.gruppe1.account.projection.SearchCustomerProjection;
 import com.fh.vs.gruppe1.account.repository.CustomerRepository;
 import com.fh.vs.gruppe1.account.repository.EmployeeRepository;
+import com.fh.vs.gruppe1.account.repository.PersonRepository;
 import com.fh.vs.gruppe1.account.service.AddressService;
 import com.fh.vs.gruppe1.account.service.CustomerService;
 import com.fh.vs.gruppe1.account.service.EmployeeService;
@@ -60,6 +61,9 @@ public class EmployeeController {
     @Autowired
     public BankRepository bankRepository;
 
+    @Autowired
+    public PersonRepository personRepository;
+
     @RequestMapping("/stuff/hello")
     public String person() {
         return "Hello World";
@@ -106,8 +110,11 @@ public class EmployeeController {
 
         String email = (String) jsonObject.get("email");
 
-        if(employeeRepository.findByEmail(email).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "employee already exists");
+        if(personRepository.findByEmail(email).isPresent()){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("User email Already exists")
+            );
         }
         String password = (String) jsonObject.get("password");
         String firstname = (String) jsonObject.get("firstname");
@@ -168,8 +175,11 @@ public class EmployeeController {
 
         String email = (String) jsonObject.get("email");
 
-        if(customerRepository.findByEmail(email).isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "customer already exists");
+        if(personRepository.findByEmail(email).isPresent()){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format("User email Already exists")
+            );
         }
         String password = (String) jsonObject.get("password");
         String firstname = (String) jsonObject.get("firstname");

@@ -25,7 +25,7 @@ const Home = (props) => {
 
             <>
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
-                    {!isAuthenticated &&
+                    {!isAuthenticated && loading &&
                         <>
                             <Typography variant={"body1"}>To use this service please login</Typography>
                             <LoginForm></LoginForm>

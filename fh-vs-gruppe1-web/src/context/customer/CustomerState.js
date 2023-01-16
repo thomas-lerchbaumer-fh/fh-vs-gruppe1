@@ -41,8 +41,6 @@ const CustomerState = props => {
 
         try{
             const res = await axios.get('api/customer/getCustomer')
-            console.log(res,'myres');
-
             dispatch({
                 type: GET_CUSTOMER_DEPOT,
                 payload: res.data
@@ -64,6 +62,7 @@ const CustomerState = props => {
             const res = await axios.post('/api/customer/buyStock', formData, {
                 headers: headers
             })
+            console.log(res, 'buy cutstomer');
              dispatch({
                 type: UPDATE_CUSTOMER_DEPOT,
                 payload: res.data
@@ -73,7 +72,7 @@ const CustomerState = props => {
             console.log(err);
             setAlert(err.response.data.message, 'error')
         }
-    }, [dispatch]);
+    }, []);
 
 
     const customerSellStocks = useCallback(async (formData) => {
@@ -86,8 +85,6 @@ const CustomerState = props => {
         })
 
         setAuthToken(localStorage.token);
-
-        console.log(formData);
 
         try {
             const res = await axios.post('/api/customer/sellStock', formData, {

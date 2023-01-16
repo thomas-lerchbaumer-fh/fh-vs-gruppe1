@@ -75,7 +75,6 @@ const EmployeeState = props => {
 
         setAuthToken(localStorage.token);
 
-        console.log(formData);
         if (formData['privilege'] === 'customer'){
             try {
                 const res = await axios.post('/api/employee/createCustomer', formData, {
@@ -86,7 +85,9 @@ const EmployeeState = props => {
                     type: ACCOUNT_CREATION,
                     payload: res.data
                 });
+                setAlert("User was created", "success")
             } catch (err) {
+                setAlert(err.response.data.message, 'error')
                 dispatch({type: AUTH_ERROR});
             }
         }
@@ -100,8 +101,11 @@ const EmployeeState = props => {
                     type: ACCOUNT_CREATION,
                     payload: res.data
                 });
+                setAlert("User was created", "success")
             } catch (err) {
+                console.log(err);
                 dispatch({type: AUTH_ERROR});
+                setAlert(err.response.data.message, 'error')
             }
         }
     }, [dispatch]);
@@ -112,7 +116,6 @@ const EmployeeState = props => {
 
         try {
             const res = await axios.get('/api/employee/getBankVolume');
-            console.log(res);
             dispatch({
                 type: GET_BANK_VOLUME,
                 payload: res.data
@@ -183,8 +186,6 @@ const EmployeeState = props => {
         })
 
         setAuthToken(localStorage.token);
-
-        console.log(formData);
 
         try {
             const res = await axios.post('/api/employee/sellStock', formData, {

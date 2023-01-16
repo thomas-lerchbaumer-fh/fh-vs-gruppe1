@@ -49,7 +49,6 @@ const SellStockForm = props =>{
         if(sellAmount > stock.amount){
             setAlert('You can\'t sell more stocks than you own', 'info')
         }else{
-            console.log(stock)
             empSellStocks({"id":stock.id, "symbol":stock.symbol, "amount":sellAmount, "userEmail":depot[1]});
             setAlert('Data submitted', 'info')
             window.location.reload()

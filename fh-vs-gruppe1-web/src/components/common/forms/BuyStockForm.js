@@ -36,7 +36,6 @@ const BuyStockForm = props =>{
     const [stockTmp, setStockTmp] = useState({ symbol: '', lastTradePrice: 0 });
 
     const handleBuyAmountChange = (event, stock) => {
-        console.log(stock);
         setStockTmp(stock);
         const buyAmount = Number(event.target.value);
         setBuyAmount(buyAmount);
@@ -73,7 +72,7 @@ const BuyStockForm = props =>{
                     inputProps={{ min: 1, max: stock.floatShares}}
                 />
             </StyledTableCell>
-            <StyledTableCell align="right">{stock.totalCost}</StyledTableCell>
+            <StyledTableCell align="right">{stock.totalCost && stock.totalCost.toLocaleString()}€</StyledTableCell>
             <StyledTableCell align="right">
                 <Select value={customer} onChange={(event) => setCustomer(event.target.value)}>
                     {allCustomers.map((name) => (
@@ -85,7 +84,7 @@ const BuyStockForm = props =>{
                 </Select>
             </StyledTableCell>
             <StyledTableCell align="right">
-                <Button variant="contained" type="submit" color="primary" onClick={onSubmit}>
+                <Button variant="contained" disabled={stock.floatShares <= 0} type="submit" color="primary" onClick={onSubmit}>
                     Buy
                 </Button>
             </StyledTableCell>

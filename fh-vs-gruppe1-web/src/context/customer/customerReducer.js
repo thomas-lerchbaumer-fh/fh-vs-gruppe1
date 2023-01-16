@@ -19,10 +19,11 @@ export default (state, action) => {
             };
         case UPDATE_CUSTOMER_DEPOT:
             const tmpCustomer = state.customer;
-            tmpCustomer.depot.transactions.push(action.payload);
+            state.customer.depot.transactions.push(action.payload);
+            //tmpCustomer.depot.transactions.push(action.payload);
+            console.log(tmpCustomer, "tmp customer after");
             return{
                 ...state,
-                customer: tmpCustomer
             }
         case SET_LOADING:
             return {

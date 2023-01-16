@@ -43,7 +43,6 @@ export default (state, action) => {
             }
             ;
         case GET_BANK_VOLUME:
-            console.log(action.payload.totalOrderVolume)
             return{
                 ...state,
                 bankVolume: action.payload.totalOrderVolume

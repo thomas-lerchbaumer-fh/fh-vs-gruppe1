@@ -24,7 +24,6 @@ const CustomerHome = (props) => {
 
     useEffect(()=>{
         if(loading){
-            console.log(loading);
             getCustomer();
         }
 

@@ -20,7 +20,6 @@ const EmployeeHome = (props) => {
     const {bankVolume,getBankVolume} = employeeContext;
 
     const getVolume = () =>{
-        console.log('exe=');
         getBankVolume()
     }
 

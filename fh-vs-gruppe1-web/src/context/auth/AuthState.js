@@ -49,12 +49,12 @@ const AuthState = props => {
         const headers = {
             'Content-Type': 'application/json'
         }
-
         try {
             const res = await axios.post('/api/login', formData, {
                 headers: headers
             })
 
+            console.log(res);
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data

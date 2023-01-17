@@ -42,7 +42,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function createData(id, symbol, amount, unitPrice, date, currentPrice, companyName) {
     const tmpDate = new Date(date)
-    const formattedDate = `${("0" + tmpDate.getDay()).slice(-2)}.${("0" + tmpDate.getMonth() +1).slice(-2)}.${tmpDate.getFullYear()} ${tmpDate.getHours()}:${tmpDate.getMinutes()}`
+    const formattedDate = tmpDate.toDateString()
     return {id, symbol, amount, unitPrice, formattedDate, currentPrice, companyName };
 }
 

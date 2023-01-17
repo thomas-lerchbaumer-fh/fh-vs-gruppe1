@@ -66,7 +66,7 @@ const StockGridCustomer = (props) => {
                                 </StyledTableCell>
                                 <StyledTableCell align="right">{stock.symbol}</StyledTableCell>
                                 <StyledTableCell align="right">{stock.floatShares}</StyledTableCell>
-                                <StyledTableCell align="right">{stock.lastTradePrice.toFixed(2)}</StyledTableCell>
+                                <StyledTableCell align="right">{stock.lastTradePrice.toFixed(2)} €</StyledTableCell>
                                 <BuyStockFormCustomer stock={stock} ></BuyStockFormCustomer>
                             </StyledTableRow>
                         ))}

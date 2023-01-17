@@ -22,7 +22,6 @@ const Home = (props) => {
 
 
     return (
-
             <>
                 <Box component="main" sx={{flexGrow: 1, p: 3}}>
                     {!isAuthenticated && loading &&
@@ -48,10 +47,8 @@ const Home = (props) => {
                     </Grid>
                     }
                 </Box>
-
             </>
     )
-
 }
 
 export default Home

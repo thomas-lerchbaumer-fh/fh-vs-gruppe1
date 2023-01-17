@@ -27,10 +27,8 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
     @Autowired
     private CustomUserDetailsService userDetailsService;
-
 
     @Autowired
     private JWTGenerator jwtGenerator;
